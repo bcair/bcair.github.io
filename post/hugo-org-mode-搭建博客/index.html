@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Hugo &amp; org-mode 搭建博客 - Violet</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="vailete" /><meta name="description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo \\ Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.8c3cbcb0324c2bb4875ceccba4007cbad4b4ac8377f33af9953c3e7684534a50.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Hugo &amp; org-mode 搭建博客" />
+<meta property="og:description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo \\ Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" />
+<meta property="article:published_time" content="2020-07-20T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-07-20T00:00:00+08:00" />
+<meta itemprop="name" content="Hugo &amp; org-mode 搭建博客">
+<meta itemprop="description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo \\ Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装">
+<meta itemprop="datePublished" content="2020-07-20T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2020-07-20T00:00:00+08:00" />
+<meta itemprop="wordCount" content="1499">
+
+
+
+<meta itemprop="keywords" content="hugo," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Hugo &amp; org-mode 搭建博客"/>
+<meta name="twitter:description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo \\ Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Vailete</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Vailete</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Hugo &amp; org-mode 搭建博客</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-07-20 </span>
+        <div class="post-category">
+            <a href="/categories/emacs/"> emacs </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#hugo-准备">Hugo 准备</a>
+      <ul>
+        <li><a href="#安装-hugo">安装 Hugo \\</a></li>
+        <li><a href="#生成站点">生成站点</a></li>
+        <li><a href="#新建博文">新建博文</a></li>
+        <li><a href="#安装主题">安装主题</a></li>
+        <li><a href="#查看生成效果">查看生成效果</a></li>
+        <li><a href="#部署到-github-pages">部署到 github pages</a></li>
+        <li><a href="#部署脚本">部署脚本</a></li>
+      </ul>
+    </li>
+    <li><a href="#emacs-端设置">Emacs 端设置</a>
+      <ul>
+        <li><a href="#安装-ox-hugo">安装 ox-hugo</a></li>
+        <li><a href="#ox-hugo-相关快捷键">ox-hugo 相关快捷键</a></li>
+        <li><a href="#org-capture-快速添加博文标题">org-capture 快速添加博文标题</a></li>
+        <li><a href="#ox-hugo-设置博文作者">ox-hugo 设置博文作者</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub
+Page 仓库。</p>
+<h2 id="hugo-准备">Hugo 准备</h2>
+<h3 id="安装-hugo">安装 Hugo \\</h3>
+<p>Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 还可以下载二进制 <a href="https://github.com/gohugoio/hugo/releases">release</a> 文件安装。</p>
+<h3 id="生成站点">生成站点</h3>
+<p>安装以后，我们需要建立一个博客根目录，存放博客的配置以及博文等。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">hugo new site /path/to/site
+</code></pre></td></tr></table>
+</div>
+</div><p>比如选择主目录下 <code>site</code> 文件夹为博客根目录。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">hugo new site ~/site
+</code></pre></td></tr></table>
+</div>
+</div><p>执行生成站点命令后，博客根目录下有这些文件夹和文件，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">/home/ding/site/
+├── archetypes/
+│   └── default.md
+├── config.toml
+├── content/
+├── data/
+├── layouts/
+├── static/
+└── themes/
+
+6 directories, 2 files
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="新建博文">新建博文</h3>
+<p>在 hugo 的文件结构中， <code>content</code> 目录下每一个一级子目录都称为 <code>section</code>, 通常我们会将我们的博文放到名为 <code>post</code> 的 section 中，运行命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">hugo new post/first.md
+</code></pre></td></tr></table>
+</div>
+</div><p>会自动在 <code>~/site/content/post/</code> 目录下生成文件 <code>first.md</code>. 然后编辑该
+markdown 文件内容即可，它的内容会作为博客页面的内容。同时 <code>post</code> 目录下的
+markdown 文件默认会在博客的首页展示。</p>
+<h3 id="安装主题">安装主题</h3>
+<p>因为 hugo 默认没有自带的主题，为了预览生成的博文，还需要安装主题。可以网上搜索 hugo 主题，选择自己喜欢的主题，下面以 <a href="https://github.com/olOwOlo/hugo-theme-even">even</a> 主题为例，介绍安装流程。</p>
+<ol>
+<li>
+<p>将主题下载到博客根目录的 <code>themes</code> 文件夹内</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> themes
+git clone https://github.com/olOwOlo/hugo-theme-even even
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>编辑根目录 config.toml，设置主题为 even:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">theme = &#34;even&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>并参考仓库中的 <code>exampleSite</code> 目录中的 <code>config.toml</code> 文件修改站点配置文件。</p>
+</li>
+</ol>
+<h3 id="查看生成效果">查看生成效果</h3>
+<p>运行 <code>hugo server</code> 即可，如果想同时渲染草稿，添加选项 <code>-D</code> 即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">$ hugo server
+
+                   | ZH-CN
+-------------------+--------
+  Pages            |    11
+  Paginator pages  |     0
+  Non-page files   |     0
+  Static files     |    38
+  Processed images |     0
+  Aliases          |     2
+  Sitemaps         |     1
+  Cleaned          |     0
+
+Built in 27 ms
+Watching for changes in /home/ding/site/{archetypes,content,data,layouts,static,themes}
+Watching for config changes in /home/ding/site/config.toml
+Environment: &#34;development&#34;
+Serving pages from memory
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
+</code></pre></td></tr></table>
+</div>
+</div><p>访问浏览器地址 <a href="http://localhost:1313/">http://localhost:1313/</a> 查看博客。</p>
+<h3 id="部署到-github-pages">部署到 github pages</h3>
+<p>接下来将本地的博客部署到 github pages 上。根据<a href="https://pages.github.com/">官方演示</a>创建仓库，添加 index.html 即可。</p>
+<p>有了自己的 github page, 在博客站点根目录执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">hugo --theme=hyde --baseUrl=&#34;http://name.github.io/&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>如果一切顺利，所有静态页面都会生成到 public 目录，接下来将 pubilc 目录里所有文件
+push 到 github page 仓库，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">cd</span> public
+git init
+git remote add origin https://github.com/name/name.github.io.git
+git add -A
+git commit -m <span class="s2">&#34;first commit&#34;</span>
+git push -u origin master
+</code></pre></td></tr></table>
+</div>
+</div><p>浏览器里访问：<a href="http://name.github.io/">http://name.github.io/</a></p>
+<h3 id="部署脚本">部署脚本</h3>
+<p>参考<a href="https://jdhao.github.io/2018/10/10/hexo%5Fto%5Fhugo/">博文</a>，添加下面的脚本到博客根目录 deploy.sh 文件中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1"># file deploy.sh</span>
+<span class="nb">echo</span> -e <span class="s2">&#34;\033[0;32mDeploying updates to GitHub...\033[0m&#34;</span>
+
+<span class="c1"># build the project</span>
+hugo -t even
+
+<span class="nb">cd</span> public
+git add .
+<span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;rebuilding site `date`&#34;</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -eq <span class="m">1</span> <span class="o">]</span>
+  <span class="k">then</span> <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span>
+<span class="k">fi</span>
+
+git commit -m <span class="s2">&#34;</span><span class="nv">$msg</span><span class="s2">&#34;</span>
+
+<span class="c1"># push source to github</span>
+git push upstream master
+
+<span class="c1"># come back to blog root</span>
+<span class="nb">cd</span> ..
+</code></pre></td></tr></table>
+</div>
+</div><p>之后，即可运行 <code>./deploy.sh</code> 就可以将博客更新并部署到 github 了。</p>
+<h2 id="emacs-端设置">Emacs 端设置</h2>
+<h3 id="安装-ox-hugo">安装 ox-hugo</h3>
+<p><a href="https://ox-hugo.scripter.co/">ox-hugo</a> 可通过 melpa 获取，安装后添加下面的配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">with-eval-after-load</span> <span class="ss">&#39;ox</span>
+  <span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;ox-hugo</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">setq</span> <span class="nv">org-hugo-default-section-directory</span> <span class="s">&#34;post&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="ox-hugo-相关快捷键">ox-hugo 相关快捷键</h3>
+<p>下面的两个快捷键用于快速设置子标题属性，比如若每个 org subtree 对应一个博文，有必要设置 <code>EXPORT_FILE_NAME</code> 属性，这时通过 <code>C-c C-x p file name RET &lt;导出时的博文标题&gt; RET</code> 可以快速对当前子标题添加下面内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">:PROPERTIES:
+:EXPORT_FILE_NAME: &lt;导出时的博文标题&gt;
+:END:
+</code></pre></td></tr></table>
+</div>
+</div><table>
+<thead>
+<tr>
+<th>desc</th>
+<th>org command</th>
+<th>remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C-c C-x p</td>
+<td>org-set-property</td>
+<td>quickly set property for each subtree</td>
+</tr>
+<tr>
+<td>C-c C-q</td>
+<td>org-set-tags-command</td>
+<td>set headding tags (the blog&rsquo;s categories or tags)</td>
+</tr>
+</tbody>
+</table>
+<p>若光标位于 Org 标题上，可以用 <code>C-c C-c</code> 替代 <code>C-c C-q</code>.</p>
+<h3 id="org-capture-快速添加博文标题">org-capture 快速添加博文标题</h3>
+<p>下面的 capture 模板可以快速在 site.org 文件中添加一个子标题，并提示输入导出时的博文标题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Populates only the EXPORT_FILE_NAME property in the inserted headline.</span>
+<span class="p">(</span><span class="nb">with-eval-after-load</span> <span class="ss">&#39;org-capture</span>
+  <span class="p">(</span><span class="nb">defun</span> <span class="nv">org-hugo-new-subtree-post-capture-template</span> <span class="p">()</span>
+    <span class="s">&#34;Returns </span><span class="ss">`org-capture&#39;</span><span class="s"> template string for new Hugo post.
+</span><span class="s">See </span><span class="ss">`org-capture-templates&#39;</span><span class="s"> for more information.&#34;</span>
+    <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">title</span> <span class="p">(</span><span class="nf">read-from-minibuffer</span> <span class="s">&#34;输入博客标题: &#34;</span><span class="p">))</span> <span class="c1">;Prompt to enter the post title</span>
+           <span class="p">(</span><span class="nv">fname</span> <span class="p">(</span><span class="nv">org-hugo-slug</span> <span class="nv">title</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nf">mapconcat</span> <span class="nf">#&#39;identity</span>
+                 <span class="o">`</span><span class="p">(</span>
+                   <span class="o">,</span><span class="p">(</span><span class="nf">concat</span> <span class="s">&#34;* TODO &#34;</span> <span class="nv">title</span><span class="p">)</span>
+                   <span class="s">&#34;:PROPERTIES:&#34;</span>
+                   <span class="o">,</span><span class="p">(</span><span class="nf">concat</span> <span class="s">&#34;:EXPORT_FILE_NAME: &#34;</span> <span class="nv">fname</span><span class="p">)</span>
+                   <span class="s">&#34;:END:&#34;</span>
+                   <span class="s">&#34;%?\n&#34;</span><span class="p">)</span>          <span class="c1">;Place the cursor here finally</span>
+                 <span class="s">&#34;\n&#34;</span><span class="p">)))</span>
+
+  <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;org-capture-templates</span>
+               <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;h&#34;</span>                <span class="c1">;`org-capture&#39; binding + h</span>
+                 <span class="s">&#34;create a Hugo post&#34;</span>
+                 <span class="nv">entry</span>
+                 <span class="c1">;; It is assumed that below file is present in `org-directory&#39;</span>
+                 <span class="p">(</span><span class="nv">file</span> <span class="s">&#34;site.org&#34;</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">function</span> <span class="nv">org-hugo-new-subtree-post-capture-template</span><span class="p">))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="ox-hugo-设置博文作者">ox-hugo 设置博文作者</h3>
+<p>参考：</p>
+<ul>
+<li><a href="https://ox-hugo.scripter.co/doc/author/#tweaking-your-hugo-template-to-support-list-author">https://ox-hugo.scripter.co/doc/author/#tweaking-your-hugo-template-to-support-list-author</a></li>
+<li><a href="https://ox-hugo.scripter.co/doc/author/#forcing-author-to-be-a-string--alternative">https://ox-hugo.scripter.co/doc/author/#forcing-author-to-be-a-string--alternative</a></li>
+</ul>
+<p>对于一些主题(比如 even 主题)，ox-hugo 导出的 markdown 文件 front matter 内
+author 部分无法解析。 执行 <code>hugo server</code> 时提示会渲染报错。</p>
+<p>为了解决这个问题，可以强制 ox-hugo 导出作者名为一个字符串，而不是列表。对 <!-- raw HTML omitted -->整个 Org 文件<!-- raw HTML omitted --> 设置 <strong>两个</strong> 属性： <code>author</code> 、 <code>hugo_custom_front_matter</code>,
+注意两者缺一不可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">#+author:
+#+hugo_custom_front_matter: :author &#34;ding&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>另一方面，官方也给出了 org subtree -&gt; one post 对应的作者属性设置方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">:PROPERTIES:
+:EXPORT_AUTHOR: Firstname LastName
+:END:
+</code></pre></td></tr></table>
+</div>
+</div><p>但个人使用 even 主题过程中，该方法无法跳过 <code>hugo server</code> 不可渲染博文作者的
+bug. 所以暂时不考虑给每个 org subtree 设置不同作者的流程。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">vailete</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-07-20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/hugo/">hugo</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/">
+            <span class="next-text nav-default">elisp学习 (一)：删除列表元素</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://bcair.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">vailete</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

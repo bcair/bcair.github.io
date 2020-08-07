@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Violet</title>
+    <link>https://bcair.github.io/post/</link>
+    <description>Recent content in Posts on Violet</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 20 Jul 2020 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://bcair.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hugo &amp; org-mode 搭建博客</title>
+      <link>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Mon, 20 Jul 2020 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo \\ Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装</description>
+    </item>
+    
+    <item>
+      <title>elisp学习 (一)：删除列表元素</title>
+      <link>https://bcair.github.io/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Wed, 20 May 2020 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/</guid>
+      <description>function: delq 用法： 1 delq object list 返回值中会删除所有的 eq 匹配到的项，其他元素并不去重或者删除 匹配成功， delq 会改变原列表的值，原列表会对匹配元素“去重”或者“删</description>
+    </item>
+    
+    <item>
+      <title>常用的 shell 变量</title>
+      <link>https://bcair.github.io/post/%E5%B8%B8%E7%94%A8-shell-%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bcair.github.io/post/%E5%B8%B8%E7%94%A8-shell-%E5%8F%98%E9%87%8F/</guid>
+      <description>注意下面的有些变量只适用于 sh 脚本编程： $0 当前脚本的文件名 $n 传递给脚本或函数的参数; n 是一个数字，表示第几个参数。例如，第一个参数是 $1 ，第二个</description>
+    </item>
+    
+  </channel>
+</rss>

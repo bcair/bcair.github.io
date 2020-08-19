@@ -17,7 +17,7 @@
       <pubDate>Mon, 20 Jul 2020 00:00:00 +0800</pubDate>
       
       <guid>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo \\ Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装</description>
+      <description>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外</description>
     </item>
     
   </channel>

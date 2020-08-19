@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>elisp 宏实践(一)：使用宏批量定义流程相同的函数 - Violet</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="vailete" /><meta name="description" content="函数功能：快速访问 django 项目视图、表单模块和模板文件 Emacs 中的文件补全 默认的 Emacs 配置函数 find-file 访问文件时需要输入文件路径，路径指向某个目录时，按 TAB 键可以查" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.8c3cbcb0324c2bb4875ceccba4007cbad4b4ac8377f33af9953c3e7684534a50.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="elisp 宏实践(一)：使用宏批量定义流程相同的函数" />
+<meta property="og:description" content="函数功能：快速访问 django 项目视图、表单模块和模板文件 Emacs 中的文件补全 默认的 Emacs 配置函数 find-file 访问文件时需要输入文件路径，路径指向某个目录时，按 TAB 键可以查" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/" />
+
+<meta itemprop="name" content="elisp 宏实践(一)：使用宏批量定义流程相同的函数">
+<meta itemprop="description" content="函数功能：快速访问 django 项目视图、表单模块和模板文件 Emacs 中的文件补全 默认的 Emacs 配置函数 find-file 访问文件时需要输入文件路径，路径指向某个目录时，按 TAB 键可以查">
+
+<meta itemprop="wordCount" content="1929">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="elisp 宏实践(一)：使用宏批量定义流程相同的函数"/>
+<meta name="twitter:description" content="函数功能：快速访问 django 项目视图、表单模块和模板文件 Emacs 中的文件补全 默认的 Emacs 配置函数 find-file 访问文件时需要输入文件路径，路径指向某个目录时，按 TAB 键可以查"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Vailete</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Vailete</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">elisp 宏实践(一)：使用宏批量定义流程相同的函数</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#emacs-中的文件补全">Emacs 中的文件补全</a></li>
+    <li><a href="#基础函数-解析-django-项目-应用信息">基础函数：解析 django 项目、应用信息</a></li>
+    <li><a href="#original-3-funcs">三个函数：实现文件补全</a></li>
+    <li><a href="#宏1-根据访问文件类型过滤文件列表">宏1: 根据访问文件类型过滤文件列表</a></li>
+    <li><a href="#宏2-复刻原本独立的三个函数统一流程">宏2: 复刻原本独立的三个函数统一流程</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>函数功能：快速访问 django 项目视图、表单模块和模板文件</p>
+<h2 id="emacs-中的文件补全">Emacs 中的文件补全</h2>
+<p>默认的 Emacs 配置函数 <code>find-file</code> 访问文件时需要输入文件路径，路径指向某个目录时，按 <code>TAB</code> 键可以查看、补全目录下的文件列表。</p>
+<p>安装 counsel 包后，不需要手动按 <code>TAB</code> 键，Emacs 会智能提示目录下的文件，用户只需要按“上”、“下”(快捷键 <code>C-n</code> <code>C-p</code> 或方向键)便可以快速选择要打开的文件。</p>
+<p>比如 <code>~/projects/minisaas/web/views</code> 目录中有以下 django 视图模块(忽略
+__pycache__ 目录)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">/home/ding/projects/minisaas/web/views
+├── account.py
+├── dashboard.py
+├── file.py
+├── home.py
+├── __init__.py
+├── issues.py
+├── manage.py
+├── project.py
+├── setting.py
+├── statistics.py
+└── wiki.py
+
+0 directories, 11 files
+</code></pre></td></tr></table>
+</div>
+</div><p>Emacs 按快捷键 <code>C-x C-f</code> (find-file) 后，输入上面的路径，Emacs 给出视图模块列表，我们只需要上下移动选择并回车确认即可，图中选中了 account.py 文件<!-- raw HTML omitted -->
+<img src="/ox-hugo/counsel-demo.png" alt=""></p>
+<p>所以在调用 <code>find-file</code> 命令时，Emacs 自动获取视图目录、模型文件目录可以省去输入目录的过程。</p>
+<p>本博文先给出可以实现功能后的函数，主要记录在如何使用 Elisp 宏对多次重复的代码进行去重，作为学习 elisp macro 的实践。</p>
+<h2 id="基础函数-解析-django-项目-应用信息">基础函数：解析 django 项目、应用信息</h2>
+<p><code>my/django--get-django-root</code> <!-- raw HTML omitted -->
+尝试解析当前文件对应的 django 项目信息，若当前文件不在 django 项目中，默认选中路径为 <code>~/projects/minisaas/</code> 的 django 项目，同时也会给出当前文件是否处于 django 项目的信息。</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/django--get-django-root</span> <span class="p">()</span>
+  <span class="s">&#34;return valid django root absolute path, default is minisaas project.
+</span><span class="s">with prefix, select root&#34;</span>
+  <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nv">project-current</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nf">file-exists-p</span>
+           <span class="p">(</span><span class="nf">expand-file-name</span> <span class="s">&#34;manage.py&#34;</span> <span class="p">(</span><span class="nv">project-root</span> <span class="p">(</span><span class="nv">project-current</span><span class="p">))))</span>
+          <span class="p">(</span><span class="nf">cons</span> <span class="no">t</span>                       <span class="c1">; is a django root</span>
+                <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nv">project-root</span> <span class="p">(</span><span class="nv">project-current</span><span class="p">))))</span>
+        <span class="p">(</span><span class="nf">cons</span> <span class="no">nil</span>                    <span class="c1">; origin place not in a django project</span>
+              <span class="p">(</span><span class="nb">if</span> <span class="nv">current-prefix-arg</span>
+                  <span class="p">(</span><span class="nv">read-directory-name</span> <span class="s">&#34;select Django root: &#34;</span> <span class="s">&#34;~/projects/&#34;</span><span class="p">)</span>
+                <span class="p">(</span><span class="nf">expand-file-name</span> <span class="s">&#34;~/projects/minisaas/&#34;</span><span class="p">))))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>my/django--apps</code> <!-- raw HTML omitted -->
+返回一个列表，结构为</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">((is-django-project-p . selected-django-path) app1 app2 app3 ...)
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/django--apps</span> <span class="p">()</span>
+  <span class="s">&#34;Return a list whose car is root path and other are app name&#34;</span>
+  <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">root-info</span> <span class="p">(</span><span class="nv">my/django--get-django-root</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">root</span> <span class="p">(</span><span class="nf">cdr</span> <span class="nv">root-info</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">app-dirs</span> <span class="p">(</span><span class="nv">seq-filter</span>
+                    <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">subdir</span><span class="p">)</span>
+                      <span class="p">(</span><span class="nb">and</span>
+                       <span class="c1">;; 1. is directory</span>
+                       <span class="p">(</span><span class="nf">file-directory-p</span> <span class="nv">subdir</span><span class="p">)</span>
+                       <span class="c1">;; 2. excluding &#34;.&#34; &#34;..&#34; &#34;.git&#34;</span>
+                       <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nf">member</span> <span class="p">(</span><span class="nf">file-name-nondirectory</span> <span class="nv">subdir</span><span class="p">)</span>
+                                    <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;.&#34;</span> <span class="s">&#34;..&#34;</span> <span class="s">&#34;.git&#34;</span> <span class="s">&#34;__pycache__&#34;</span> <span class="s">&#34;venv&#34;</span><span class="p">)))</span>
+                       <span class="p">(</span><span class="nf">file-exists-p</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="s">&#34;apps.py&#34;</span> <span class="nv">subdir</span><span class="p">))))</span>
+                    <span class="p">(</span><span class="nf">directory-files</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="nv">root</span><span class="p">)</span> <span class="no">t</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">app-name-list</span> <span class="p">(</span><span class="nv">seq-map</span>
+                         <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+                           <span class="p">(</span><span class="nf">file-name-nondirectory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">x</span><span class="p">)))</span>
+                         <span class="nv">app-dirs</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nf">cons</span> <span class="nv">root-info</span> <span class="nv">app-name-list</span><span class="p">)))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>my/django--cur-app</code> <!-- raw HTML omitted -->
+返回当前文件对应的 APP 对应目录路径</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/django--cur-app</span> <span class="p">()</span>
+  <span class="s">&#34;return current app path&#34;</span>
+  <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">info</span> <span class="p">(</span><span class="nv">my/django--apps</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">django-p</span> <span class="p">(</span><span class="nv">caar</span> <span class="nv">info</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">root-path</span> <span class="p">(</span><span class="nv">cdar</span> <span class="nv">info</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">app-path-list</span> <span class="p">(</span><span class="nv">seq-map</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">app-name</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nf">expand-file-name</span> <span class="nv">app-name</span> <span class="nv">root-path</span><span class="p">))</span>
+                                 <span class="p">(</span><span class="nf">cdr</span> <span class="nv">info</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">cur-dir</span> <span class="p">(</span><span class="nb">if</span> <span class="nv">django-p</span>
+                      <span class="c1">;; in a django project</span>
+                      <span class="p">(</span><span class="nb">cond</span> <span class="p">((</span><span class="nf">eq</span> <span class="nv">major-mode</span> <span class="ss">&#39;dired-mode</span><span class="p">)</span>
+                             <span class="p">(</span><span class="nv">dired-current-directory</span><span class="p">))</span>
+                            <span class="p">(</span><span class="no">t</span>
+                             <span class="p">(</span><span class="nf">file-name-directory</span> <span class="p">(</span><span class="nf">buffer-file-name</span><span class="p">))))</span>
+                    <span class="c1">;; otherwise</span>
+                    <span class="p">(</span><span class="nv">read-directory-name</span> <span class="s">&#34;select APP: &#34;</span> <span class="nv">root-path</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">cur-app</span>
+          <span class="p">(</span><span class="nv">seq-find</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">app-path</span><span class="p">)</span>
+                      <span class="p">(</span><span class="nv">file-in-directory-p</span> <span class="nv">cur-dir</span> <span class="nv">app-path</span><span class="p">))</span>
+                    <span class="nv">app-path-list</span><span class="p">)))</span>
+    <span class="nv">cur-app</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="original-3-funcs">三个函数：实现文件补全</h2>
+<p>使用上述基本函数来解析项目、应用路径，可以使用下面三个函数直接访问当前应用下所有的视图、表单模块等(目录自动选择)。</p>
+<p>访问视图：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/django-find-view</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">app-path</span> <span class="p">(</span><span class="nv">my/django--cur-app</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">app-name</span> <span class="p">(</span><span class="nf">file-name-nondirectory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">app-path</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">prompt</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;[%s] view: &#34;</span> <span class="nv">app-name</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">view-dir</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="s">&#34;views/&#34;</span> <span class="nv">app-path</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">view-files</span> <span class="p">(</span><span class="nv">seq-filter</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;py&#34;</span> <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+                                        <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nf">member</span> <span class="nv">x</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;__init__.py&#34;</span><span class="p">)))))</span>
+                                 <span class="p">(</span><span class="nf">directory-files</span> <span class="nv">view-dir</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nv">find-file</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nf">completing-read</span> <span class="nv">prompt</span> <span class="nv">view-files</span><span class="p">)</span>
+                                 <span class="nv">view-dir</span><span class="p">))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>访问表单模块：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/django-find-form</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">app-path</span> <span class="p">(</span><span class="nv">my/django--cur-app</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">app-name</span> <span class="p">(</span><span class="nf">file-name-nondirectory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">app-path</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">prompt</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;[%s] form: &#34;</span> <span class="nv">app-name</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">form-dir</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="s">&#34;forms/&#34;</span> <span class="nv">app-path</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">form-files</span> <span class="p">(</span><span class="nv">seq-filter</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;py&#34;</span> <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+                                        <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nf">member</span> <span class="nv">x</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;__init__.py&#34;</span><span class="p">)))))</span>
+                                 <span class="p">(</span><span class="nf">directory-files</span> <span class="nv">form-dir</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nv">find-file</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nf">completing-read</span> <span class="nv">prompt</span> <span class="nv">form-files</span><span class="p">)</span>
+                                 <span class="nv">form-dir</span><span class="p">))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>访问模板文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/django-find-template</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">app-path</span> <span class="p">(</span><span class="nv">my/django--cur-app</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">app-name</span> <span class="p">(</span><span class="nf">file-name-nondirectory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">app-path</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">prompt</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;[%s] HTML template file: &#34;</span> <span class="nv">app-name</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">template-dir</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nf">concat</span> <span class="s">&#34;templates/&#34;</span> <span class="nv">app-name</span><span class="p">)</span> <span class="nv">app-path</span><span class="p">))</span>
+         <span class="p">(</span><span class="nv">template-dir</span> <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nf">file-directory-p</span> <span class="nv">template-dir</span><span class="p">)</span>
+                           <span class="nv">template-dir</span>
+                         <span class="p">(</span><span class="nf">expand-file-name</span> <span class="s">&#34;templates/&#34;</span> <span class="nv">app-path</span><span class="p">)))</span>
+         <span class="p">(</span><span class="nv">template-files</span> <span class="p">(</span><span class="nv">seq-filter</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+                                       <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;html&#34;</span> <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+                                            <span class="no">t</span><span class="p">))</span>
+                                     <span class="p">(</span><span class="nf">directory-files</span> <span class="nv">template-dir</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nv">find-file</span> <span class="p">(</span><span class="nf">expand-file-name</span>
+                <span class="p">(</span><span class="nf">completing-read</span> <span class="nv">prompt</span> <span class="nv">template-files</span><span class="p">)</span>
+                <span class="nv">template-dir</span><span class="p">))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>给三个函数定义快捷键后，就可以使用了。</p>
+<p>三个函数的思路基本一致：</p>
+<ol>
+<li>确定应用路径，名称</li>
+<li>找到视图、表单、模板保存的目录</li>
+<li>过滤对应目录中的文件，比如访问模板文件时，过滤掉后缀不是 html 的文件</li>
+<li>调用 <code>find-file</code> 和 <code>completing-read</code>, 传入过滤后的文件列表，实现文件补全</li>
+</ol>
+<p>差异只在于保存的路径随着访问文件的种类：视图、模板、表单，有些差异；以及过滤规则不一样。</p>
+<p>下面首先定义一个宏处理不同的过滤规则，然后用另一个宏来实现补全，将三个函数的定义结合到一起。</p>
+<h2 id="宏1-根据访问文件类型过滤文件列表">宏1: 根据访问文件类型过滤文件列表</h2>
+<p>这里的过滤很简单：函数 <code>my/django-find-view</code> 只列出 python 模块,
+<code>my/django-find-template</code> 只显示 HTML 文件。</p>
+<p>命名宏 <code>my/django--file-filter</code> 执行过滤判断。实现目标：</p>
+<ol>
+<li>传递字符串参数 <code>&quot;py&quot;</code>, 宏展开代码过滤 python 文件</li>
+<li>传递字符串参数 <code>&quot;html&quot;</code>, 展开后的代码过滤 html 文件</li>
+</ol>
+<p>第一版</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">my/django--file-filter-v0</span> <span class="p">(</span><span class="nv">extension</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">cond</span> <span class="p">((</span><span class="nv">string=</span> <span class="nv">extension</span> <span class="s">&#34;py&#34;</span><span class="p">)</span>
+         <span class="o">`</span><span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+            <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;py&#34;</span> <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+                 <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nf">member</span> <span class="nv">x</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;__init__.py&#34;</span><span class="p">))))))</span>
+        <span class="p">((</span><span class="nv">string=</span> <span class="nv">extension</span> <span class="s">&#34;html&#34;</span><span class="p">)</span>
+         <span class="o">`</span><span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;html&#34;</span> <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>实际就是将对应的函数形式稍微修改为 macro 形式。</p>
+<p>进一步去重后</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/django--file-filter</span> <span class="p">(</span><span class="nv">extension</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+     <span class="s">&#34;fileter files by extension or maybe something else&#34;</span>
+     <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="o">,</span><span class="nv">extension</span> <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+          <span class="o">,</span><span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nf">equal</span> <span class="nv">extension</span> <span class="s">&#34;py&#34;</span><span class="p">)</span>
+               <span class="o">&#39;</span><span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nf">member</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">list</span> <span class="s">&#34;__init__.py&#34;</span><span class="p">)))</span>
+             <span class="no">t</span><span class="p">))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>输入字符串参数 <code>&quot;py&quot;</code> 表示过滤处所有的 python 文件，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/django--file-filter</span> <span class="s">&#34;py&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>宏展开的代码如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="s">&#34;fileter files by extension or maybe something else&#34;</span>
+  <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;py&#34;</span>
+              <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+       <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nf">member</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">list</span> <span class="s">&#34;__init__.py&#34;</span><span class="p">)))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>显然宏展开后的代码提供对 python 文件的过滤。</p>
+<p>同样的，输入 html 后缀</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/django--file-filter</span> <span class="s">&#34;html&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>展开的代码对 html 文件进行过滤。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="s">&#34;fileter files by extension or maybe something else&#34;</span>
+  <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">equal</span> <span class="s">&#34;html&#34;</span>
+              <span class="p">(</span><span class="nv">file-name-extension</span> <span class="nv">x</span><span class="p">))</span>
+       <span class="no">t</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="宏2-复刻原本独立的三个函数统一流程">宏2: 复刻原本独立的三个函数统一流程</h2>
+<p>有了宏 <code>m/django--file-filter</code>, 加上</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defvar</span> <span class="nv">django-map-alist</span> <span class="o">&#39;</span><span class="p">((</span><span class="s">&#34;view&#34;</span> <span class="o">.</span> <span class="s">&#34;py&#34;</span><span class="p">)</span> <span class="p">(</span><span class="s">&#34;form&#34;</span> <span class="o">.</span> <span class="s">&#34;py&#34;</span><span class="p">)</span> <span class="p">(</span><span class="s">&#34;template&#34;</span> <span class="o">.</span> <span class="s">&#34;html&#34;</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/django-find</span> <span class="p">(</span><span class="nv">type</span><span class="p">)</span> <span class="c1">; type: &#34;view&#34; &#34;form&#34; &#34;template&#34;</span>
+  <span class="o">`</span><span class="p">(</span><span class="nb">defun</span> <span class="o">,</span><span class="p">(</span><span class="nf">intern</span> <span class="p">(</span><span class="nf">concat</span> <span class="s">&#34;my/django-find-&#34;</span> <span class="nv">type</span><span class="p">))</span> <span class="p">()</span>
+     <span class="p">(</span><span class="nb">interactive</span><span class="p">)</span>
+     <span class="p">(</span><span class="nb">let*</span> <span class="p">((</span><span class="nv">app-path</span> <span class="p">(</span><span class="nv">my/django--cur-app</span><span class="p">))</span>
+            <span class="p">(</span><span class="nv">app-name</span> <span class="p">(</span><span class="nf">file-name-nondirectory</span> <span class="p">(</span><span class="nf">directory-file-name</span> <span class="nv">app-path</span><span class="p">)))</span>
+            <span class="p">(</span><span class="nv">prompt</span> <span class="p">(</span><span class="nf">format</span> <span class="p">(</span><span class="nf">concat</span> <span class="s">&#34;[APP %s] &#34;</span> <span class="o">,</span><span class="nv">type</span> <span class="s">&#34;: &#34;</span><span class="p">)</span> <span class="nv">app-name</span><span class="p">))</span>
+            <span class="p">(</span><span class="nv">target-dir</span> <span class="p">(</span><span class="nv">seq-find</span> <span class="ss">&#39;file-directory-p</span>
+                                  <span class="p">(</span><span class="nf">list</span>
+                                   <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nf">concat</span> <span class="o">,</span><span class="nv">type</span> <span class="s">&#34;s/&#34;</span>  <span class="nv">app-name</span><span class="p">)</span> <span class="nv">app-path</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nf">concat</span> <span class="o">,</span><span class="nv">type</span> <span class="s">&#34;s/&#34;</span><span class="p">)</span> <span class="nv">app-path</span><span class="p">))))</span>
+            <span class="p">(</span><span class="nv">target-files</span> <span class="p">(</span><span class="nv">seq-filter</span>
+                           <span class="p">(</span><span class="nv">m/django--file-filter</span>
+                            <span class="o">,</span><span class="p">(</span><span class="nv">alist-get</span> <span class="nv">type</span> <span class="nv">django-map-alist</span> <span class="no">nil</span> <span class="no">nil</span> <span class="nf">#&#39;equal</span><span class="p">))</span>
+                           <span class="p">(</span><span class="nf">directory-files</span> <span class="nv">target-dir</span><span class="p">))))</span>
+       <span class="p">(</span><span class="nv">find-file</span> <span class="p">(</span><span class="nf">expand-file-name</span> <span class="p">(</span><span class="nf">completing-read</span> <span class="nv">prompt</span> <span class="nv">target-files</span><span class="p">)</span>
+                                    <span class="nv">target-dir</span><span class="p">)))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该宏统一了访问视图、表单等的流程，不再需要重复大量的代码来定义 <a href="#original-3-funcs">上文</a> 的三个函数，只要下面三行语句即可实现相同的结果:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">m/django-find</span> <span class="s">&#34;view&#34;</span><span class="p">)</span>
+<span class="c1">;; =&gt; my/django-find-view</span>
+<span class="p">(</span><span class="nv">m/django-find</span> <span class="s">&#34;form&#34;</span><span class="p">)</span>
+<span class="c1">;; =&gt; my/django-find-form</span>
+<span class="p">(</span><span class="nv">m/django-find</span> <span class="s">&#34;template&#34;</span><span class="p">)</span>
+<span class="c1">;; =&gt; my/django-find-template</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="小结">小结</h2>
+<p>因为 lisp 中 symbol 有函数定义、符号名字符串、变量值、属性列表四个属性空间，宏的定义通常混用前三个特性，侧重处理 symbol 字面量的处理，所以宏的编写相比函数比较困难。难点在于：</p>
+<ol>
+<li>宏的参数作 symbol 处理，而函数的参数为求值</li>
+<li>要考虑展开时和调用时，从而决定哪部分被 backquoted</li>
+</ol>
+<p>以下面的宏为例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/consp</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nf">consp</span> <span class="nv">x</span><span class="p">)</span>
+      <span class="s">&#34;yes&#34;</span>
+    <span class="s">&#34;not&#34;</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/consp</span> <span class="ss">&#39;ab</span><span class="p">))</span>
+<span class="c1">;; =&gt; &#34;yes&#34;</span>
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/consp</span> <span class="nv">ab</span><span class="p">))</span>
+<span class="c1">;; =&gt; &#34;not&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见宏对 <code>'ab</code> 的处理与函数对其的处理大相径庭。</p>
+<p>其他语法注意点: 宏 <code>django-find</code> 使用 <code>intern</code> 而不是
+<code>make-symbol</code>, 因为后者不会全局定义(intern)一个函数。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">vailete</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">elisp学习 (一)：删除列表元素</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E8%AE%BF%E9%97%AE-django-%E9%A1%B9%E7%9B%AE%E8%A7%86%E5%9B%BE%E8%A1%A8%E5%8D%95%E6%A8%A1%E5%9D%97%E5%92%8C%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6/">
+            <span class="next-text nav-default">elisp 宏笔记：定义函数快速访问 django 项目视图、表单模块和模板文件</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://bcair.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">vailete</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>elisp 宏：定义一个类似 use-package 包的加载配置文件的宏 - Violet</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="vailete" /><meta name="description" content="实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;amp;rest x) `,@x) (macroexpand-1 &amp;#39;(m/demo1 (&#43; 1 1) (&#43; 2 2))) ;; =&amp;gt; (first (&#43; 1 1) (&#43; 2 2)) (macroexpand-1 &amp;#39;(m/demo2 (&#43; 1 1) (&#43; 2 2))) ;; =&amp;gt;" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.8c3cbcb0324c2bb4875ceccba4007cbad4b4ac8377f33af9953c3e7684534a50.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="elisp 宏：定义一个类似 use-package 包的加载配置文件的宏" />
+<meta property="og:description" content="实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;rest x) `,@x) (macroexpand-1 &#39;(m/demo1 (&#43; 1 1) (&#43; 2 2))) ;; =&gt; (first (&#43; 1 1) (&#43; 2 2)) (macroexpand-1 &#39;(m/demo2 (&#43; 1 1) (&#43; 2 2))) ;; =&gt;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+
+<meta itemprop="name" content="elisp 宏：定义一个类似 use-package 包的加载配置文件的宏">
+<meta itemprop="description" content="实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;rest x) `,@x) (macroexpand-1 &#39;(m/demo1 (&#43; 1 1) (&#43; 2 2))) ;; =&gt; (first (&#43; 1 1) (&#43; 2 2)) (macroexpand-1 &#39;(m/demo2 (&#43; 1 1) (&#43; 2 2))) ;; =&gt;">
+
+<meta itemprop="wordCount" content="2605">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="elisp 宏：定义一个类似 use-package 包的加载配置文件的宏"/>
+<meta name="twitter:description" content="实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;rest x) `,@x) (macroexpand-1 &#39;(m/demo1 (&#43; 1 1) (&#43; 2 2))) ;; =&gt; (first (&#43; 1 1) (&#43; 2 2)) (macroexpand-1 &#39;(m/demo2 (&#43; 1 1) (&#43; 2 2))) ;; =&gt;"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Vailete</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Vailete</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">elisp 宏：定义一个类似 use-package 包的加载配置文件的宏</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 0001-01-01 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实参的处理">实参的处理</a></li>
+    <li><a href="#使用循环不断的添加语句到宏展开结果">使用循环不断的添加语句到宏展开结果</a>
+      <ul>
+        <li><a href="#不推介的格式">不推介的格式</a></li>
+        <li><a href="#推介的格式">推介的格式</a></li>
+        <li><a href="#获取关键字参数对应的-map">获取关键字参数对应的 map</a></li>
+        <li><a href="#目标">目标</a></li>
+        <li><a href="#精简格式">精简格式</a></li>
+        <li><a href="#关于-uninterned-symbol">关于 uninterned symbol</a></li>
+        <li><a href="#宏内判断参数为-quoted-symbol">宏内判断参数为 quoted symbol</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="实参的处理">实参的处理</h2>
+<p>观察不同的格式实参，在展开时的类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/demo1</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nv">first</span> <span class="o">,@</span><span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/demo2</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="o">`,@</span><span class="nv">x</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/demo1</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">2</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="c1">;; =&gt; (first (+ 1 1) (+ 2 2))</span>
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/demo2</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">2</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="c1">;; =&gt; ((+ 1 1) (+ 2 2))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>第2行和第5行的结果分别是  8 和 10</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">a</span> <span class="s">&#34;string A&#34;</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">b</span> <span class="s">&#34;string B&#34;</span><span class="p">))</span>
+
+  <span class="c1">;; m/test0 实际上等于 (symbol-value &#39;x), 不论传递的参数是什么</span>
+  <span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/test0</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+    <span class="ss">&#39;x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">ignore-error</span> <span class="ss">&#39;void-variable</span> <span class="p">(</span><span class="nv">m/test0</span> <span class="nv">b</span><span class="p">))</span> <span class="c1">;; =&gt; nil</span>
+  <span class="c1">;; 上一表达式返回为 nil, 说明捕获到 void-variable 这类错误</span>
+
+  <span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/test1</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+    <span class="o">`&#39;</span><span class="p">(</span><span class="o">,</span><span class="nv">x</span> <span class="o">.</span> <span class="o">,</span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">macroexpand</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/test1</span> <span class="nv">a</span><span class="p">))</span> <span class="c1">;; =&gt; &#39;(a . a)</span>
+  <span class="p">(</span><span class="nv">m/test1</span> <span class="nv">a</span><span class="p">)</span>
+
+  <span class="c1">;; m/test2 相比 m/test1 展开式会对 symbol 求值，然后组成 cons cell</span>
+  <span class="c1">;; m/test1 使用了 quote 宏来避免求值这一步</span>
+  <span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/test2</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+    <span class="o">`</span><span class="p">(</span><span class="nf">cons</span> <span class="o">,</span><span class="nv">x</span> <span class="o">,</span><span class="nv">x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">macroexpand</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/test2</span> <span class="nv">a</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">m/test2</span> <span class="nv">a</span><span class="p">)</span> <span class="c1">;; =&gt; (&#34;string A&#34; . &#34;string A&#34;)</span>
+
+  <span class="c1">;; 使用 quote 宏，则与 test1 表现一致</span>
+  <span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/test2-quoted</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+    <span class="o">`</span><span class="p">(</span><span class="nf">cons</span> <span class="ss">&#39;,x</span> <span class="ss">&#39;,x</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">macroexpand</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/test2-quoted</span> <span class="nv">a</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">m/test2-quoted</span> <span class="nv">vailete</span><span class="p">)</span> <span class="c1">;; =&gt; (vailete . vailete)</span>
+
+  <span class="c1">;; 从 m/test1 和 m/test2-quoted 来看，一个反 quoted 符号 + quoted 符号</span>
+  <span class="c1">;;   `&#39;(elt1 elt2 elt3)</span>
+  <span class="c1">;; 这种格式可以使到宏展开后的执行结果与宏展开式一致，借此我们可以用来看下面的例子：</span>
+  <span class="c1">;;   传递给宏的参数不再是 symbol, 而是 cons 类型</span>
+  <span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/test3</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nf">symbolp</span> <span class="nv">x</span><span class="p">))</span>                 <span class="c1">; nil</span>
+    <span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nf">type-of</span> <span class="nv">x</span><span class="p">))</span>                 <span class="c1">; cons</span>
+    <span class="p">(</span><span class="nf">print</span> <span class="nv">x</span><span class="p">)</span>                           <span class="c1">; (+ 400 200)</span>
+    <span class="o">`&#39;</span><span class="p">(</span><span class="nf">print</span> <span class="p">(</span><span class="nf">concat</span> <span class="o">,</span><span class="nv">a</span> <span class="p">(</span><span class="nf">number-to-string</span> <span class="o">,</span><span class="nv">x</span><span class="p">))))</span>
+
+  <span class="c1">;; 执行结果与返回值如下</span>
+  <span class="p">(</span><span class="nv">m/test3</span> <span class="p">(</span><span class="nf">+</span> <span class="mi">400</span> <span class="mi">200</span><span class="p">))</span>
+  <span class="c1">;; (print (symbolp x))                 ; nil</span>
+  <span class="c1">;; (print (type-of x))                 ; cons</span>
+  <span class="c1">;; (print x)                           ; (+ 400 200)</span>
+  <span class="c1">;; =&gt; (print (concat &#34;string A&#34; (number-to-string (+ 400 200))))</span>
+  <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>展开时使用 symbol 的打印表示，运行时则使用 symbol 的变量空间</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/test</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">message</span> <span class="p">(</span><span class="nf">format</span> <span class="s">&#34;Does it euqal to symbol &#39;a in macro-expand time?  %s&#34;</span> <span class="p">(</span><span class="nf">eq</span> <span class="ss">&#39;a</span> <span class="nv">x</span><span class="p">)))</span>
+  <span class="o">`</span><span class="p">(</span><span class="nf">eq</span> <span class="ss">&#39;a</span> <span class="ss">&#39;,x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nv">m/test</span> <span class="nv">b</span><span class="p">)</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="c1">;; Does it euqal to symbol ’a in macro-expand time?  nil</span>
+
+<span class="p">(</span><span class="nv">m/test</span> <span class="nv">a</span><span class="p">)</span>
+<span class="c1">;; =&gt; t</span>
+<span class="c1">;; Does it euqal to symbol ’a in macro-expand time?  t</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>第一个表达式 <code>(m/test a)</code> 发送的消息中确定参数与 <code>'a</code> 等同，说明在宏展开时参数只考虑其打印形式即可；在函数运行时表达式中，为了再次验证是否与 <code>'a</code> 相等，需要将 <code>,x</code> 用单引号标记为引用。</p>
+<h2 id="使用循环不断的添加语句到宏展开结果">使用循环不断的添加语句到宏展开结果</h2>
+<p>通常宏展开的元素数目，展开后比宏定义体的元素个数少，这里使用循环，每个周期插入一些语句到展开结果。</p>
+<h3 id="不推介的格式">不推介的格式</h3>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/add-inner-sexp</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">append</span>
+   <span class="o">&#39;</span><span class="p">(</span><span class="nb">progn</span><span class="p">)</span>
+   <span class="o">&#39;</span><span class="p">((</span><span class="nf">print</span> <span class="s">&#34;ding&#34;</span><span class="p">))</span>
+   <span class="o">`,</span><span class="nv">x</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/add-inner-sexp</span> <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;hao&#34;</span><span class="p">)))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>展开结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;ding&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;hao&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>`,x 其中 ` 和 , 缺一不可，逗号表示使用将实参(表达式)替换形参，反单引号则是声明保留替换后的表达式，而不是对该表达式求值。如下面的宏定义</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/add-inner-sexp-wrong-ver</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">append</span>
+   <span class="o">&#39;</span><span class="p">(</span><span class="nb">progn</span><span class="p">)</span>
+   <span class="o">&#39;</span><span class="p">((</span><span class="nf">print</span> <span class="s">&#34;ding&#34;</span><span class="p">))</span>
+   <span class="o">`</span><span class="nv">x</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的 `x   ==  &lsquo;x</p>
+<h3 id="推介的格式">推介的格式</h3>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/add-inner-sexp2</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nb">progn</span>
+     <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;丁&#34;</span><span class="p">)</span>
+     <span class="o">,@</span><span class="p">(</span><span class="nb">when</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/add-inner-sexp2</span> <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;浩&#34;</span><span class="p">)))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>展开后的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;丁&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;浩&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>同样的 &amp;rest 收集参数， m/add-inner-sexp 因为最外层为 append 函数，所以所有的预加表达式需要在最初的显示效果上(即调用宏时所看到的表达式)外层添一层括号才可以与 progn 同级，而 &amp;rest 默认自动处理了“添加括号”这一步。</p>
+<p>在 m/add-innser-sexp2 中，我们没有使用 append 函数来构造宏返回的 list, 这时
+&amp;rest 对实参的”添加括号”操作实际上是多余的，所以该宏定义体中使用了 ,@ 语法糖。</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/add-inner-sexp2</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">x</span><span class="p">)</span>
+  <span class="c1">;; 注意反单引号内值i有 ,@ 表达式时(即 `,@&#39;((1 2 3))，没有粘合效果，毕竟找</span>
+  <span class="c1">;; 不到与该表达式的上级列表了</span>
+
+  <span class="c1">;; 也要注意： ,@ 是先求值再粘合结果列表的元素到列表同级，有个“对表达式求</span>
+  <span class="c1">;; 值的过程”，所以其后列表若为函数表达式需要第一个元素为 function symbol</span>
+  <span class="o">`</span><span class="p">(</span><span class="nb">progn</span> <span class="o">,@</span><span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">f</span> <span class="no">nil</span><span class="p">))</span>
+              <span class="p">(</span><span class="nb">while</span> <span class="p">(</span><span class="nf">&gt;</span> <span class="p">(</span><span class="nf">length</span> <span class="nv">x</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="p">(</span><span class="nb">push</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">x</span><span class="p">)</span> <span class="nv">f</span><span class="p">))</span>
+              <span class="p">(</span><span class="nf">nreverse</span> <span class="nv">f</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nv">macroexpand-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">m/add-inner-sexp2</span>
+                 <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;丁&#34;</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;浩&#34;</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;测试&#34;</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;循环&#34;</span><span class="p">)))</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;丁&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;浩&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;测试&#34;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">print</span> <span class="s">&#34;循环&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="获取关键字参数对应的-map">获取关键字参数对应的 map</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nf">funcall</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+           <span class="p">(</span><span class="nb">save-match-data</span>
+             <span class="p">(</span><span class="nf">string-match</span> <span class="s">&#34;\\(?:\:\\)\\(.*map\\)$&#34;</span> <span class="nv">x</span><span class="p">)</span>
+             <span class="c1">;; (match-data t)</span>
+             <span class="p">(</span><span class="nf">substring</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">match-beginning</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">match-end</span> <span class="mi">1</span><span class="p">))))</span>
+         <span class="p">(</span><span class="nf">symbol-name</span> <span class="nb">:foo-bar-map</span><span class="p">))</span>
+<span class="c1">;; =&gt; &#34;foo-bar-map&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>*</strong></p>
+<p>;; 开启 debug 后，发生错误 Emacs 自动 break. 这里使用 break 通常只是为了加
+;; 载一部分配置，避免后续配置的影响</p>
+<p>;; symbol, app, let 对 pcase EXPVAL 的限制越来越低，symbol 绑定该 EXPVAL 值；
+;; app 使用这个值进行匹配判断；let 则可以不在意 EXPVAL 的值</p>
+<p>;; 可以使用 backquote-style 模式 `(</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">fn/require-ver1</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">declare</span> <span class="p">(</span><span class="nv">indent</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nv">debug</span> <span class="no">t</span><span class="p">))</span>
+  <span class="s">&#34;Require config files. Possible keywords see follows:
+</span><span class="s">
+</span><span class="s">:last (no supplement)        is it last config?
+</span><span class="s">:path                        \&#34;/path/to/dir/\&#34;
+</span><span class="s">:autoload                    (\&#34;/path/to/file\&#34; docstring interactive type)
+</span><span class="s">:foo-map                     key-sequence&#34;</span>
+  <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">form</span> <span class="o">&#39;</span><span class="p">(</span><span class="nb">progn</span><span class="p">))</span> <span class="nv">pre-config</span> <span class="nv">lastp</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">catch</span> <span class="ss">&#39;break</span>
+      <span class="p">(</span><span class="nb">while</span> <span class="no">t</span>
+        <span class="c1">;; do pcase filter in each while loop</span>
+        <span class="p">(</span><span class="nb">pcase</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">args</span><span class="p">)</span>
+          <span class="c1">;; ends while structure</span>
+          <span class="p">((</span><span class="nb">and</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">null</span><span class="p">)</span>
+                <span class="p">(</span><span class="nv">guard</span> <span class="p">(</span><span class="nf">=</span> <span class="p">(</span><span class="nf">length</span> <span class="nv">args</span><span class="p">)</span> <span class="mi">0</span><span class="p">)))</span>
+           <span class="p">(</span><span class="nb">throw</span> <span class="ss">&#39;break</span> <span class="no">nil</span><span class="p">))</span>
+
+          <span class="c1">;; lastq (like the SEQ in tcp protocol), it would be checked in last clause</span>
+          <span class="p">(</span><span class="nb">:last</span> <span class="p">(</span><span class="nb">setq</span> <span class="nv">lastp</span> <span class="no">t</span><span class="p">))</span>
+
+          <span class="p">((</span><span class="nb">and</span> <span class="nb">:path</span>
+                <span class="p">(</span><span class="nb">let</span> <span class="nv">newpath</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">args</span><span class="p">)))</span>
+           <span class="c1">;; newpath can be string or form which return a path string</span>
+           <span class="c1">;; the “,newpath” in next line will eval newpath and insert</span>
+           <span class="c1">;; result string</span>
+           <span class="p">(</span><span class="nb">push</span> <span class="o">`</span><span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;load-path</span> <span class="o">,</span><span class="nv">newpath</span><span class="p">)</span> <span class="nv">form</span><span class="p">))</span>
+
+          <span class="c1">;; autoload 参数过多，将参数集中在关键字后面的列表中</span>
+          <span class="c1">;; &#39;func &amp; :autoload</span>
+          <span class="p">((</span><span class="nb">and</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">consp</span><span class="p">)</span>
+                <span class="nv">func-sym</span>
+                <span class="p">(</span><span class="nb">let</span> <span class="nv">func</span> <span class="nv">func-sym</span><span class="p">)))</span>
+          <span class="p">((</span><span class="nb">and</span> <span class="nb">:autoload</span>
+                <span class="p">(</span><span class="nb">let</span> <span class="nv">auto-load-args</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">args</span><span class="p">)))</span>
+           <span class="p">(</span><span class="nb">push</span> <span class="o">`</span><span class="p">(</span><span class="nf">autoload</span> <span class="o">,</span><span class="nv">func</span> <span class="o">,@</span><span class="nv">auto-load-args</span><span class="p">)</span> <span class="nv">form</span><span class="p">))</span>
+
+          <span class="c1">;; handle the MAP written in keywords</span>
+          <span class="p">((</span><span class="nb">and</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">keywordp</span><span class="p">)</span>
+                <span class="nv">map-keyword</span>
+                <span class="p">(</span><span class="nb">let</span> <span class="nv">map-name</span> <span class="p">(</span><span class="nf">funcall</span>
+                               <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+                                 <span class="p">(</span><span class="nb">save-match-data</span>
+                                   <span class="p">(</span><span class="nf">string-match</span> <span class="s">&#34;\\(?:\:\\)\\(.*map\\)$&#34;</span> <span class="nv">x</span><span class="p">)</span>
+                                   <span class="p">(</span><span class="nf">substring</span> <span class="nv">x</span> <span class="p">(</span><span class="nf">match-beginning</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">match-end</span> <span class="mi">1</span><span class="p">))))</span>
+                               <span class="nv">map-keyword</span><span class="p">)))</span>
+           <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nv">string-prefix-p</span> <span class="s">&#34;global&#34;</span> <span class="nv">map-name</span><span class="p">)</span>
+               <span class="o">&#39;</span><span class="p">(</span><span class="nf">define-key</span> <span class="nv">keymap</span> <span class="nv">key</span> <span class="nv">def</span><span class="p">)</span>
+             <span class="p">(</span><span class="nb">with-eval-after-load</span> <span class="ss">&#39;after</span>
+               <span class="p">(</span><span class="nf">define-key</span> <span class="nv">keymap</span> <span class="nv">key</span> <span class="nv">def</span><span class="p">))))</span>
+
+          <span class="c1">;; 1) Obtain new feature&#39;s symbol or file-name be loaded</span>
+          <span class="p">((</span><span class="nb">and</span> <span class="p">(</span><span class="nb">or</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">symbolp</span><span class="p">)</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">stringp</span><span class="p">))</span>
+                <span class="nv">config</span>
+                <span class="p">(</span><span class="nb">let</span> <span class="nv">config</span> <span class="p">(</span><span class="nb">if</span> <span class="nv">lastp</span> <span class="nv">pre-config</span> <span class="nv">config</span><span class="p">))</span> <span class="c1">; reset config when lastp is t</span>
+                <span class="p">)</span>
+           <span class="p">(</span><span class="nb">if</span> <span class="nv">lastp</span>
+               <span class="p">(</span><span class="nb">progn</span> <span class="p">(</span><span class="nb">push</span> <span class="o">`</span><span class="p">(</span><span class="nf">message</span> <span class="s">&#34;End at %s loading&#34;</span> <span class="o">,</span><span class="nv">config</span><span class="p">)</span> <span class="nv">form</span><span class="p">)</span>
+                      <span class="c1">;; also break current while loop</span>
+                      <span class="p">(</span><span class="nb">throw</span> <span class="ss">&#39;break</span> <span class="no">nil</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nf">stringp</span> <span class="nv">config</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">push</span> <span class="o">`</span><span class="p">(</span><span class="nf">load</span> <span class="o">,</span><span class="nv">config</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span> <span class="nv">form</span><span class="p">)</span>
+               <span class="p">(</span><span class="nb">push</span> <span class="o">`</span><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;,config</span><span class="p">)</span> <span class="nv">form</span><span class="p">))</span>
+             <span class="c1">;; update pre-config for next while loop</span>
+             <span class="p">(</span><span class="nb">setq</span> <span class="nv">pre-config</span> <span class="nv">config</span><span class="p">))))))</span>
+    <span class="p">(</span><span class="nb">setq</span> <span class="nv">form</span> <span class="p">(</span><span class="nf">reverse</span> <span class="nv">form</span><span class="p">))</span>
+    <span class="c1">;; (nreverse form)</span>
+    <span class="nv">form</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="目标">目标</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">pcase</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">e2</span> <span class="nv">e2</span> <span class="nv">e3</span><span class="p">)</span>
+  <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">_</span> <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;load-path</span> <span class="s">&#34;/path/to/dir&#34;</span><span class="p">)))</span>
+  <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">_</span> <span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;foo</span><span class="p">)))</span>
+  <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">_</span> <span class="p">(</span><span class="nf">load</span> <span class="s">&#34;foo&#34;</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)))</span>
+  <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">_</span> <span class="p">(</span><span class="nb">with-eval-after-load</span> <span class="ss">&#39;after</span>
+          <span class="p">(</span><span class="nf">autoload</span> <span class="ss">&#39;func1</span> <span class="s">&#34;foo&#34;</span> <span class="no">nil</span> <span class="no">t</span> <span class="no">nil</span><span class="p">)</span>
+          <span class="p">(</span><span class="nf">define-key</span> <span class="nv">bar-map</span> <span class="nv">key</span> <span class="ss">&#39;foo-fn1</span><span class="p">)))))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="精简格式">精简格式</h3>
+<p>反引号和逗号这么少，都不好意思说是用宏来实现的功能，所以下面使用
+backquote-style pcase 语法来重写以下，力求看得眼花！</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/handle</span> <span class="p">(</span><span class="kp">&amp;rest</span> <span class="nv">args</span><span class="p">)</span>
+  <span class="c1">;; give handle-func args (in macro perspective) list</span>
+  <span class="p">(</span><span class="nv">handle-func</span> <span class="nv">args</span> <span class="no">nil</span><span class="p">))</span>
+
+<span class="c1">;; env:</span>
+<span class="c1">;;   target:  cur-feature, load-file-name, or autoload-function</span>
+<span class="c1">;;   extra1:  after-feature autoload-file-name keymap-name keyseq</span>
+
+<span class="c1">;; 所以 env 结构为</span>
+<span class="c1">;;   &#39;(&amp;rest charged type value after autoload keymap keyseq)</span>
+<span class="c1">;; charged 为填充状态，每个 target 参数没有过滤完毕时该变量为 nil, 一旦</span>
+<span class="c1">;; charged 为 t 则生成一次宏展开代码</span>
+
+<span class="c1">;; target match 逻辑</span>
+<span class="c1">;; 1. 设置 charged 为 t</span>
+<span class="c1">;; 2. 检查 type</span>
+<span class="c1">;; 3. type 非空，生成代码</span>
+<span class="c1">;; 4. type 空，跳过</span>
+<span class="c1">;; 5. 生成代码后，清空 env</span>
+<span class="c1">;; 6. 处理 EXPRVALs (pcase 逻辑)</span>
+
+<span class="c1">;; autoload 注册函数情景，可能需要设置快捷键，即对应的 map, 若 map 默认</span>
+<span class="c1">;; 不加载，添加 :after 关键字</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">handle-func</span> <span class="p">(</span><span class="nv">x</span> <span class="kp">&amp;rest</span> <span class="nv">env</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">pcase</span> <span class="p">(</span><span class="nf">list</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">x</span><span class="p">))</span>
+    <span class="c1">;; EXPRVAL explain:</span>
+    <span class="c1">;;   &#39;(PRED MAYBE-LET-PREV LET extra)</span>
+    <span class="c1">;;   notice: the argument of PRED &amp; MAYBE-LET-PREV are equal</span>
+    <span class="c1">;;   PRED do checking, MAYBE-LET-PREV do bind or nothing, LET do binding</span>
+
+
+
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="nb">:path</span>     <span class="o">,</span><span class="nv">_</span> <span class="o">,</span><span class="nv">path-str</span><span class="p">)</span>  <span class="p">(</span><span class="nb">progn</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">x</span><span class="p">)</span>
+                                       <span class="p">(</span><span class="nv">handle-func</span> <span class="p">)))</span>
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="nb">:autoload</span> <span class="o">,</span><span class="nv">_</span> <span class="o">,</span><span class="nv">file-name</span><span class="p">)</span> <span class="p">(</span><span class="nb">progn</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">x</span><span class="p">)</span>
+                                       <span class="o">`</span><span class="p">(</span><span class="nf">autoload</span> <span class="nv">func</span> <span class="nv">file-name</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)))</span> <span class="c1">; only command</span>
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="nb">:after</span>    <span class="o">,</span><span class="nv">_</span> <span class="o">,</span><span class="nv">after</span><span class="p">)</span>     <span class="p">(</span><span class="nb">progn</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">x</span><span class="p">)</span>
+                                       <span class="o">`</span><span class="p">(</span><span class="nb">with-eval-after-load</span> <span class="o">,</span><span class="nv">after-feat</span><span class="p">)))</span> <span class="c1">; only command</span>
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">keywordp</span><span class="p">)</span>
+             <span class="p">(</span><span class="nv">pred</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">string-match</span> <span class="s">&#34;\\(?:\:\\)\\(.*map\\)$&#34;</span> <span class="p">(</span><span class="nf">symbol-name</span> <span class="nv">y</span><span class="p">)))))</span>
+       <span class="o">,</span><span class="p">(</span><span class="nv">app</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">substring</span> <span class="nv">y</span> <span class="p">(</span><span class="nf">match-beginning</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">match-end</span> <span class="mi">1</span><span class="p">)))</span> <span class="nv">map-name</span><span class="p">)</span>
+       <span class="o">,</span><span class="nv">keyseq</span><span class="p">)</span>
+     <span class="c1">;; map-name is a string, so need intern-soft</span>
+     <span class="p">(</span><span class="nb">progn</span> <span class="p">(</span><span class="nb">pop</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nf">define-key</span> <span class="p">(</span><span class="nf">intern-soft</span> <span class="nv">map-name</span><span class="p">)))</span>
+     <span class="p">)</span>
+
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="p">(</span><span class="nv">pred</span> <span class="nf">symbolp</span><span class="p">)</span> <span class="o">,</span><span class="nv">feat</span> <span class="o">,</span><span class="nv">_</span><span class="p">)</span>  <span class="p">(</span><span class="nv">handle-func</span> <span class="p">(</span><span class="nv">x</span> <span class="o">`</span><span class="p">(</span><span class="nv">feature</span>   <span class="o">,</span><span class="nv">feat</span><span class="p">))))</span>
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="p">(</span><span class="nv">pred</span> <span class="nf">stringp</span><span class="p">)</span> <span class="o">,</span><span class="nv">file</span> <span class="o">,</span><span class="nv">_</span><span class="p">)</span>  <span class="p">(</span><span class="nv">handle-func</span> <span class="p">(</span><span class="nv">x</span> <span class="o">`</span><span class="p">(</span><span class="nv">load-file</span> <span class="o">,</span><span class="nv">file</span><span class="p">))))</span>
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nv">pred</span> <span class="nf">consp</span><span class="p">)</span>
+             <span class="p">(</span><span class="nv">pred</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">eq</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">y</span><span class="p">)</span> <span class="ss">&#39;quote</span><span class="p">))))))</span>
+    <span class="p">(</span><span class="o">`</span><span class="p">(</span><span class="no">nil</span> <span class="no">nil</span> <span class="no">nil</span><span class="p">)</span> <span class="ss">&#39;break</span><span class="p">))</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="nb">progn</span>
+  <span class="p">(</span><span class="nf">autoload</span> <span class="ss">&#39;func1</span> <span class="s">&#34;foo&#34;</span> <span class="no">nil</span> <span class="no">t</span> <span class="no">nil</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">define-key</span> <span class="nv">bar-map</span> <span class="nv">key</span> <span class="ss">&#39;func2</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="关于-uninterned-symbol">关于 uninterned symbol</h3>
+<p>绑定键位时，有时因为配置未加载，需要的 map 可能没有 interned. 这是需要了解一些 uninterned symbol 以应对我们获取了 map 的字符串名(不是 symbol 类型)</p>
+<p>因为： define-key 要求第一个参数为有效变量，且类型为 (unquoted) symbol</p>
+<blockquote>
+<p>No obarray contains all symbols; in fact, some symbols are not in any
+obarray. They are called “uninterned symbols”. An uninterned symbol has the
+same four cells as other symbols; however, the only way to gain access to
+it is by finding it in some other object or as the value of a variable.</p>
+</blockquote>
+<p>uninterned symbol 可以保存到变量中，为了更快键的创建 uninterned symbol, 可以执行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">(gensym)  ; 或 (gensym &#34;group-prefix&#34;)
+</code></pre></td></tr></table>
+</div>
+</div><p>具体查看变量 <code>gensym-counter</code> 的帮助文档。</p>
+<h3 id="宏内判断参数为-quoted-symbol">宏内判断参数为 quoted symbol</h3>
+<p>注意下面定义了 <code>m/ts</code> 后，只有参数打印形式为 quoted-symbol 才会返回真。比如下面的第三个 let 例子，因为 <code>m/ts</code> 为宏，参数 <code>foo</code> 不会进行求值，所以返回
+nil.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defmacro</span> <span class="nv">m/ts</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">and</span> <span class="p">(</span><span class="nf">consp</span> <span class="nv">x</span><span class="p">)</span>
+       <span class="p">(</span><span class="nf">funcall</span> <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nf">eq</span> <span class="p">(</span><span class="nf">car</span> <span class="nv">y</span><span class="p">)</span> <span class="ss">&#39;quote</span><span class="p">))</span> <span class="nv">x</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nv">m/ts</span> <span class="ss">&#39;foo</span><span class="p">)</span>
+<span class="c1">;; =&gt; t</span>
+<span class="p">(</span><span class="nv">m/ts</span> <span class="nv">foo</span><span class="p">)</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">foo</span> <span class="ss">&#39;test</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">m/ts</span> <span class="nv">foo</span><span class="p">))</span>
+<span class="c1">;; =&gt; nil</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">vailete</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        0001-01-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">elisp 宏实践(一)：使用宏批量定义流程相同的函数</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/pcase/">
+            <span class="next-text nav-default">elisp: pcase</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://bcair.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">vailete</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

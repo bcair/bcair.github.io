@@ -183,7 +183,7 @@
   
   <div class="post-content">
     <div class="post-summary">
-      函数功能：快速访问 django 项目视图、表单模块和模板文件 Emacs 中的文件补全 默认的 Emacs 配置函数 find-file 访问文件时需要输入文件路径，路径指向某个目录时，按 TAB 键可以查
+      函数功能：快速访问 django 项目视图、表单模块和模板文件 之前为了方便 django 项目跳转视图、表单模块，写了几个函数，快捷键调用时可以迅速给出对应的文件列表便
     </div>
     <div class="read-more">
       <a href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/" class="read-more-link">阅读更多</a>
@@ -193,7 +193,7 @@
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E8%AE%BF%E9%97%AE-django-%E9%A1%B9%E7%9B%AE%E8%A7%86%E5%9B%BE%E8%A1%A8%E5%8D%95%E6%A8%A1%E5%9D%97%E5%92%8C%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6/">elisp 宏笔记：定义函数快速访问 django 项目视图、表单模块和模板文件</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/">elisp 宏：定义一个类似 use-package 包的加载配置文件的宏</a></h1>
     <div class="post-meta">
       <span class="post-time"> 0001-01-01 </span>
       
@@ -202,17 +202,17 @@
   
   <div class="post-content">
     <div class="post-summary">
-      默认的 Emacs 配置函数 find-file 访问文件时需要输入文件路径，路径指向某个目录时，按 TAB 键可以查看、补全目录下的文件列表。 安装 counsel 包后，不需要手动按 TAB 键，Ema
+      实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;rest x) `,@x) (macroexpand-1 &#39;(m/demo1 (+ 1 1) (+ 2 2))) ;; =&gt; (first (+ 1 1) (+ 2 2)) (macroexpand-1 &#39;(m/demo2 (+ 1 1) (+ 2 2))) ;; =&gt;
     </div>
     <div class="read-more">
-      <a href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E8%AE%BF%E9%97%AE-django-%E9%A1%B9%E7%9B%AE%E8%A7%86%E5%9B%BE%E8%A1%A8%E5%8D%95%E6%A8%A1%E5%9D%97%E5%92%8C%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6/" class="read-more-link">阅读更多</a>
+      <a href="/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%BF%97%E6%84%BF%E8%A1%A8/">tables</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/pcase/">elisp: pcase</a></h1>
     <div class="post-meta">
       <span class="post-time"> 0001-01-01 </span>
       
@@ -221,10 +221,10 @@
   
   <div class="post-content">
     <div class="post-summary">
-      year 舞蹈专业分数线 #ERROR 17 63 63 18 63 19 65 20 65 标记为 # 的行可以自动计算，但貌似只根据第一行 formula 进行计算，其他行的公式需要手动 C-c C-c 省份 学校 年份 .. 舞蹈表演 最
+      pcase 用于构造“模式匹配”的条件语句，首字母p对应 pattern 对于多条件分支，常用的 cond 表达式有个缺陷：子句的 BODY 不可以获取条件表达式执行结果，有时为了获取该
     </div>
     <div class="read-more">
-      <a href="/post/%E5%BF%97%E6%84%BF%E8%A1%A8/" class="read-more-link">阅读更多</a>
+      <a href="/post/pcase/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

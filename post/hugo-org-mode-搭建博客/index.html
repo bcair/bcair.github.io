@@ -43,13 +43,13 @@
 <meta property="og:description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" />
-<meta property="article:published_time" content="2020-07-20T00:00:00+08:00" />
-<meta property="article:modified_time" content="2020-07-20T00:00:00+08:00" />
+<meta property="article:published_time" content="2021-01-09T00:00:00+08:00" />
+<meta property="article:modified_time" content="2021-01-09T00:00:00+08:00" />
 <meta itemprop="name" content="Hugo &amp; org-mode 搭建博客">
 <meta itemprop="description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外">
-<meta itemprop="datePublished" content="2020-07-20T00:00:00+08:00" />
-<meta itemprop="dateModified" content="2020-07-20T00:00:00+08:00" />
-<meta itemprop="wordCount" content="1488">
+<meta itemprop="datePublished" content="2021-01-09T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2021-01-09T00:00:00+08:00" />
+<meta itemprop="wordCount" content="1743">
 
 
 
@@ -122,7 +122,7 @@
       <h1 class="post-title">Hugo &amp; org-mode 搭建博客</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2020-07-20 </span>
+        <span class="post-time"> 2021-01-09 </span>
         <div class="post-category">
             <a href="/categories/emacs/"> emacs </a>
             </div>
@@ -154,6 +154,7 @@
         <li><a href="#ox-hugo-设置博文作者">ox-hugo 设置博文作者</a></li>
       </ul>
     </li>
+    <li><a href="#使用-ox-hugo-生成博文">使用 ox-hugo 生成博文</a></li>
   </ul>
 </nav>
   </div>
@@ -201,7 +202,7 @@ Page 仓库。</p>
 <td class="lntd">
 <pre class="chroma"><code class="language-text" data-lang="text">/home/ding/site/
 ├── archetypes/
-│   └── default.md
+│   └── default.md
 ├── config.toml
 ├── content/
 ├── data/
@@ -226,7 +227,8 @@ Page 仓库。</p>
 markdown 文件内容即可，它的内容会作为博客页面的内容。同时 <code>post</code> 目录下的
 markdown 文件默认会在博客的首页展示。</p>
 <h3 id="安装主题">安装主题</h3>
-<p>因为 hugo 默认没有自带的主题，为了预览生成的博文，还需要安装主题。可以网上搜索 hugo 主题，选择自己喜欢的主题，下面以 <a href="https://github.com/olOwOlo/hugo-theme-even">even</a> 主题为例，介绍安装流程。</p>
+<p>因为 hugo 默认没有自带的主题，为了预览生成的博文，还需要安装主题。可以网上搜索 hugo 主题，选择自己喜欢的主题，下面以
+<a href="https://github.com/olOwOlo/hugo-theme-even">even</a> 主题为例，介绍安装流程。</p>
 <ol>
 <li>
 <p>将主题下载到博客根目录的 <code>themes</code> 文件夹内</p>
@@ -529,6 +531,28 @@ author 部分无法解析。 执行 <code>hugo server</code> 时提示会渲染�
 </code></pre></td></tr></table>
 </div>
 </div><p>但个人使用 even 主题过程中，该方法 <code>hugo server</code> 渲染博文作者失败，暂时不考虑给每个 org subtree 设置不同作者。</p>
+<h2 id="使用-ox-hugo-生成博文">使用 ox-hugo 生成博文</h2>
+<p>一般而言，我们希望将整个 Org 文档导出为 markdown 文档，或者该 org 文档内某些子树导出为若干个 markdown 文档。并将这些 markdown 文档收集到 hugo 服务渲染目录中以渲染得到对应的浏览器静态页面。</p>
+<p>那么哪些是有效的可作为 hugo 博文的 org 文档或子树呢？</p>
+<ol>
+<li>有效的 Hugo post org file: 有 <code>#+title</code> 关键字的 org 文档，且 org 文档没有有效的 hugo post 子树</li>
+<li>有效的 Hugo post subtree: 一个拥有 <code>EXPORT_FILE_NAME</code> 属性的 Org 子树。</li>
+</ol>
+<p>涉及到的快捷键：</p>
+<ol>
+<li><code>C-c C-e H H</code>
+<ul>
+<li>如果游标处在有效的 hugo post subtree 中，将该 subtree 转为 hugo markdown;</li>
+<li>如果 Org 文档为有效的 hugo post org file, 将之转为一篇 hugo markdown.</li>
+</ul>
+</li>
+<li><code>C-c C-e H A</code>
+<ul>
+<li>如果 Org 文档内有多个 hugo post subtree, 全部转换为 hugo markdown 文件;</li>
+<li>如果 Org 文档为有效的 hugo post org file, 导出为一篇 hugo markdown.</li>
+</ul>
+</li>
+</ol>
 
     </div>
 
@@ -540,7 +564,7 @@ author 部分无法解析。 执行 <code>hugo server</code> 时提示会渲染�
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2020-07-20
+        2021-01-09
         
     </span>
   </p>
@@ -590,7 +614,8 @@ author 部分无法解析。 执行 <code>hugo server</code> 时提示会渲染�
 
   <span class="copyright-year">
     &copy; 
-    2020
+    2020 - 
+    2021
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>

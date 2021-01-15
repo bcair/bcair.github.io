@@ -6,10 +6,19 @@
     <description>Recent content on Violet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 09 Jan 2021 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 13 Jan 2021 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://bcair.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Debian 系统 MySQL 安装及 auth_socket 插件介绍</title>
+      <link>https://bcair.github.io/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Wed, 13 Jan 2021 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/</guid>
+      <description>Debian10 安装 MySQL 不像 ubuntu 仓库自带 MySQL 包，Debian 系统仓库中只有 mariadb，若需要安装 MySQL，可以添加 MySQL 的 apt 仓库源，然后使用 apt 命令下载。 注意：</description>
+    </item>
     
     <item>
       <title>Hugo &amp; org-mode 搭建博客</title>
@@ -23,7 +32,7 @@
     <item>
       <title>文件上传</title>
       <link>https://bcair.github.io/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link>
-      <pubDate>Mon, 20 Jul 2020 00:00:00 +0800</pubDate>
+      <pubDate>Thu, 20 Aug 2020 00:00:00 +0800</pubDate>
       
       <guid>https://bcair.github.io/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid>
       <description>HTML 表单发送文件 由于HTTP是一种文本协议，所以处理文件这样的二进制数据(或者大家都这样认为的) 会有一些特殊的要求，而表单中其他数据都是文本数</description>
@@ -45,24 +54,6 @@
       
       <guid>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/</guid>
       <description>函数功能：快速访问 django 项目视图、表单模块和模板文件 之前为了方便 django 项目跳转视图、表单模块，写了几个函数，快捷键调用时可以迅速给出对应的文件列表便</description>
-    </item>
-    
-    <item>
-      <title>elisp 宏：定义一个类似 use-package 包的加载配置文件的宏</title>
-      <link>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
-      <description>实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;amp;rest x) `,@x) (macroexpand-1 &amp;#39;(m/demo1 (+ 1 1) (+ 2 2))) ;; =&amp;gt; (first (+ 1 1) (+ 2 2)) (macroexpand-1 &amp;#39;(m/demo2 (+ 1 1) (+ 2 2))) ;; =&amp;gt;</description>
-    </item>
-    
-    <item>
-      <title>elisp: pcase</title>
-      <link>https://bcair.github.io/post/pcase/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://bcair.github.io/post/pcase/</guid>
-      <description>pcase 用于构造“模式匹配”的条件语句，首字母p对应 pattern 对于多条件分支，常用的 cond 表达式有个缺陷：子句的 BODY 不可以获取条件表达式执行结果，有时为了获取该</description>
     </item>
     
     <item>

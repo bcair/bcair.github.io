@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://bcair.github.io/" />
-<meta property="og:updated_time" content="2021-01-09T00:00:00+08:00" />
+<meta property="og:updated_time" content="2021-01-13T00:00:00+08:00" />
 <meta itemprop="name" content="Violet">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -113,6 +113,25 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/">Debian 系统 MySQL 安装及 auth_socket 插件介绍</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-01-13 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Debian10 安装 MySQL 不像 ubuntu 仓库自带 MySQL 包，Debian 系统仓库中只有 mariadb，若需要安装 MySQL，可以添加 MySQL 的 apt 仓库源，然后使用 apt 命令下载。 注意：
+    </div>
+    <div class="read-more">
+      <a href="/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">Hugo &amp; org-mode 搭建博客</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2021-01-09 </span>
@@ -136,7 +155,7 @@
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2020-07-20 </span>
+      <span class="post-time"> 2020-08-20 </span>
       
     </div>
   </header>
@@ -193,7 +212,7 @@
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/">elisp 宏：定义一个类似 use-package 包的加载配置文件的宏</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%B8%B8%E7%94%A8-shell-%E5%8F%98%E9%87%8F/">常用的 shell 变量</a></h1>
     <div class="post-meta">
       <span class="post-time"> 0001-01-01 </span>
       
@@ -202,29 +221,10 @@
   
   <div class="post-content">
     <div class="post-summary">
-      实参的处理 观察不同的格式实参，在展开时的类型 1 2 3 4 5 6 7 8 9 10 (defmacro m/demo1 (&amp;rest x) `(first ,@x)) (defmacro m/demo2 (&amp;rest x) `,@x) (macroexpand-1 &#39;(m/demo1 (+ 1 1) (+ 2 2))) ;; =&gt; (first (+ 1 1) (+ 2 2)) (macroexpand-1 &#39;(m/demo2 (+ 1 1) (+ 2 2))) ;; =&gt;
+      注意下面的有些变量只适用于 sh 脚本编程： $0 当前脚本的文件名 $n 传递给脚本或函数的参数; n 是一个数字，表示第几个参数。例如，第一个参数是 $1 ，第二个
     </div>
     <div class="read-more">
-      <a href="/post/elisp-%E5%AE%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/pcase/">elisp: pcase</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      pcase 用于构造“模式匹配”的条件语句，首字母p对应 pattern 对于多条件分支，常用的 cond 表达式有个缺陷：子句的 BODY 不可以获取条件表达式执行结果，有时为了获取该
-    </div>
-    <div class="read-more">
-      <a href="/post/pcase/" class="read-more-link">阅读更多</a>
+      <a href="/post/%E5%B8%B8%E7%94%A8-shell-%E5%8F%98%E9%87%8F/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -233,10 +233,7 @@
   
   <nav class="pagination">
     
-    <a class="next" href="/page/2/">
-        <span class="next-text">下一页</span>
-        <i class="iconfont icon-right"></i>
-      </a>
+    
   </nav>
         </div>
         

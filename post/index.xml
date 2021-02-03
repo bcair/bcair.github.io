@@ -23,7 +23,7 @@
     <item>
       <title>Hugo &amp; org-mode 搭建博客</title>
       <link>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Sat, 09 Jan 2021 00:00:00 +0800</pubDate>
+      <pubDate>Sun, 03 Jan 2021 00:00:00 +0800</pubDate>
       
       <guid>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
       <description>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外</description>
@@ -54,6 +54,15 @@
       
       <guid>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/</guid>
       <description>函数功能：快速访问 django 项目视图、表单模块和模板文件 之前为了方便 django 项目跳转视图、表单模块，写了几个函数，快捷键调用时可以迅速给出对应的文件列表便</description>
+    </item>
+    
+    <item>
+      <title>将虚拟机 IP 由 DHCP 接口改为静态接口时无法 SSH 链接</title>
+      <link>https://bcair.github.io/post/ssh_connect_server_after_changing_its_ip_interface/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bcair.github.io/post/ssh_connect_server_after_changing_its_ip_interface/</guid>
+      <description>###+hugo_custom_front_matter: :author &amp;ldquo;vailete&amp;rdquo; 虚拟机使用静态IP地址 编辑 /etc/network/interfaces 文件如下 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # This file describes the network interfaces available on your system # and how to activate them. For more information, see interfaces(5). source /etc/network/interfaces.d/* # The loopback network interface auto lo iface lo inet loopback</description>
     </item>
     
     <item>

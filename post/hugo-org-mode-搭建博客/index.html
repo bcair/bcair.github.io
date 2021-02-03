@@ -43,13 +43,13 @@
 <meta property="og:description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" />
-<meta property="article:published_time" content="2021-01-09T00:00:00+08:00" />
-<meta property="article:modified_time" content="2021-01-09T00:00:00+08:00" />
+<meta property="article:published_time" content="2021-01-03T00:00:00+08:00" />
+<meta property="article:modified_time" content="2021-01-03T00:00:00+08:00" />
 <meta itemprop="name" content="Hugo &amp; org-mode 搭建博客">
 <meta itemprop="description" content="记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外">
-<meta itemprop="datePublished" content="2021-01-09T00:00:00+08:00" />
-<meta itemprop="dateModified" content="2021-01-09T00:00:00+08:00" />
-<meta itemprop="wordCount" content="1743">
+<meta itemprop="datePublished" content="2021-01-03T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2021-01-03T00:00:00+08:00" />
+<meta itemprop="wordCount" content="1800">
 
 
 
@@ -122,7 +122,7 @@
       <h1 class="post-title">Hugo &amp; org-mode 搭建博客</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2021-01-09 </span>
+        <span class="post-time"> 2021-01-03 </span>
         <div class="post-category">
             <a href="/categories/emacs/"> emacs </a>
             </div>
@@ -505,19 +505,20 @@ git push upstream master
 </ul>
 <p>对于一些主题(比如 even 主题)，ox-hugo 导出的 markdown 文件 front matter 内
 author 部分无法解析。 执行 <code>hugo server</code> 时提示会渲染报错。</p>
-<p>为了解决这个问题，可以强制 ox-hugo 导出作者名为一个字符串，而不是列表。对整个 Org 文件设置 <strong>两个</strong> 属性： <code>author</code> 、 <code>hugo_custom_front_matter</code>,
-注意两者缺一不可。</p>
+<p>为了解决这个问题，可以强制 ox-hugo 导出作者名为一个字符串，而不是列表。对整个
+Org 文件设置 <strong>两个</strong> 关键字属性： <code>author</code> 、 <code>hugo_custom_front_matter</code>. <del>注意两者缺一不可。</del></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-text" data-lang="text">#+author:
+<pre class="chroma"><code class="language-text" data-lang="text">#+author: （留空以便使用 hugo 配置文件中相关设定）
 #+hugo_custom_front_matter: :author &#34;ding&#34;
 </code></pre></td></tr></table>
 </div>
-</div><p>另一方面，官方也给出了 org subtree -&gt; one post 对应的作者属性设置方法：</p>
+</div><p>若导出的是整个 Org 文件，则使用 <code>#+author:</code>, 若导出的为某一个子树，则使用另一中关键字。</p>
+<p>另一方面，官方也给出了 org subtree -&gt; one post 对应的作者属性设置方法：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -564,7 +565,7 @@ author 部分无法解析。 执行 <code>hugo server</code> 时提示会渲染�
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2021-01-09
+        2021-01-03
         
     </span>
   </p>

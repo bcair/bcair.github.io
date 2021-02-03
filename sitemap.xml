@@ -24,35 +24,35 @@
   
   <url>
     <loc>https://bcair.github.io/categories/</loc>
-    <lastmod>2021-01-09T00:00:00+08:00</lastmod>
+    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://bcair.github.io/categories/emacs/</loc>
-    <lastmod>2021-01-09T00:00:00+08:00</lastmod>
+    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://bcair.github.io/tags/hugo/</loc>
-    <lastmod>2021-01-09T00:00:00+08:00</lastmod>
+    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2021-01-09T00:00:00+08:00</lastmod>
+    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://bcair.github.io/tags/</loc>
-    <lastmod>2021-01-09T00:00:00+08:00</lastmod>
+    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -80,6 +80,12 @@
   
   <url>
     <loc>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://bcair.github.io/post/ssh_connect_server_after_changing_its_ip_interface/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

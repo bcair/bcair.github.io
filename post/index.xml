@@ -48,6 +48,15 @@
     </item>
     
     <item>
+      <title>debian initial script</title>
+      <link>https://bcair.github.io/post/debian_initialize/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bcair.github.io/post/debian_initialize/</guid>
+      <description>由本 Org 文件生成 debian10 系统配置脚本。首先是脚本解释器声明部分： 修改系统软件源 使用清华大学镜像源 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak sudo apt install apt-transport-https ca-certificates -y</description>
+    </item>
+    
+    <item>
       <title>elisp 宏实践(一)：使用宏批量定义流程相同的函数</title>
       <link>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

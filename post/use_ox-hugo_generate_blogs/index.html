@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="vailete" /><meta name="description" content="安装 hugo 到系统并生成站点 新建 hugo 博文 Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 release 文件安装。 安装以后，我们需要" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="vailete" /><meta name="description" content="1安装 hugo 到系统并生成站点 1.1新建 hugo 博文 1.2添加博文内容 1.3安装主题 1.4查看生成效果 1.5部署到 github pages 1.6部署脚本 2Emacs 部分 2.1安装配置" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,23 +40,23 @@
 
 
 <meta property="og:title" content="使用 hugo 及 ox-hugo 搭建基于 org 文档的静态博客" />
-<meta property="og:description" content="安装 hugo 到系统并生成站点 新建 hugo 博文 Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 release 文件安装。 安装以后，我们需要" />
+<meta property="og:description" content="1安装 hugo 到系统并生成站点 1.1新建 hugo 博文 1.2添加博文内容 1.3安装主题 1.4查看生成效果 1.5部署到 github pages 1.6部署脚本 2Emacs 部分 2.1安装配置" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bcair.github.io/post/use_ox-hugo_generate_blogs/" />
 <meta property="article:published_time" content="2020-10-03T00:00:00+08:00" />
-<meta property="article:modified_time" content="2021-02-21T22:37:24+08:00" />
+<meta property="article:modified_time" content="2021-02-21T23:33:38+08:00" />
 <meta itemprop="name" content="使用 hugo 及 ox-hugo 搭建基于 org 文档的静态博客">
-<meta itemprop="description" content="安装 hugo 到系统并生成站点 新建 hugo 博文 Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 release 文件安装。 安装以后，我们需要">
+<meta itemprop="description" content="1安装 hugo 到系统并生成站点 1.1新建 hugo 博文 1.2添加博文内容 1.3安装主题 1.4查看生成效果 1.5部署到 github pages 1.6部署脚本 2Emacs 部分 2.1安装配置">
 <meta itemprop="datePublished" content="2020-10-03T00:00:00+08:00" />
-<meta itemprop="dateModified" content="2021-02-21T22:37:24+08:00" />
-<meta itemprop="wordCount" content="2411">
+<meta itemprop="dateModified" content="2021-02-21T23:33:38+08:00" />
+<meta itemprop="wordCount" content="2584">
 
 
 
 <meta itemprop="keywords" content="Hugo,hugo," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 hugo 及 ox-hugo 搭建基于 org 文档的静态博客"/>
-<meta name="twitter:description" content="安装 hugo 到系统并生成站点 新建 hugo 博文 Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 release 文件安装。 安装以后，我们需要"/>
+<meta name="twitter:description" content="1安装 hugo 到系统并生成站点 1.1新建 hugo 博文 1.2添加博文内容 1.3安装主题 1.4查看生成效果 1.5部署到 github pages 1.6部署脚本 2Emacs 部分 2.1安装配置"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,44 +128,43 @@
       </div>
     </header>
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">文章目录</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#安装-hugo-到系统并生成站点">安装 hugo 到系统并生成站点</a>
-      <ul>
-        <li><a href="#新建-hugo-博文">新建 hugo 博文</a></li>
-        <li><a href="#添加博文内容">添加博文内容</a></li>
-        <li><a href="#安装主题">安装主题</a></li>
-        <li><a href="#查看生成效果">查看生成效果</a></li>
-        <li><a href="#部署到-github-pages">部署到 github pages</a></li>
-        <li><a href="#部署脚本">部署脚本</a></li>
-      </ul>
-    </li>
-    <li><a href="#emacs-部分">Emacs 部分</a>
-      <ul>
-        <li><a href="#安装配置-ox-hugo">安装配置 ox-hugo</a></li>
-        <li><a href="#ox-hugo-如何管理-org-文档">ox-hugo 如何管理 Org 文档？</a></li>
-        <li><a href="#编辑-org-模式子树的快捷键">编辑 Org 模式子树的快捷键</a></li>
-        <li><a href="#使用-org-capture-快速添加博文标题">使用 org-capture 快速添加博文标题</a></li>
-      </ul>
-    </li>
-    <li><a href="#hugo-server-无法在-even-主题下渲染-ox-hugo-导出的-markdown-文件">hugo server 无法在 even 主题下渲染 ox-hugo 导出的 markdown 文件</a></li>
-    <li><a href="#org-meta-data-and-hugo-front-matter">Org meta-data &amp; hugo front matter</a>
-      <ul>
-        <li><a href="#file-post-设定">file post 设定</a></li>
-        <li><a href="#subtree-post-设定">subtree post 设定</a></li>
-        <li><a href="#file-post-vs-subtree-post">file post vs subtree post</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
+    
     <div class="post-content">
-      <h2 id="安装-hugo-到系统并生成站点">安装 hugo 到系统并生成站点</h2>
-<h3 id="新建-hugo-博文">新建 hugo 博文</h3>
+      <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<ul>
+<li><!-- raw HTML omitted -->1<!-- raw HTML omitted --> <a href="#%E5%AE%89%E8%A3%85-hugo-%E5%88%B0%E7%B3%BB%E7%BB%9F%E5%B9%B6%E7%94%9F%E6%88%90%E7%AB%99%E7%82%B9">安装 hugo 到系统并生成站点</a>
+<ul>
+<li><!-- raw HTML omitted -->1.1<!-- raw HTML omitted --> <a href="#%E6%96%B0%E5%BB%BA-hugo-%E5%8D%9A%E6%96%87">新建 hugo 博文</a></li>
+<li><!-- raw HTML omitted -->1.2<!-- raw HTML omitted --> <a href="#%E6%B7%BB%E5%8A%A0%E5%8D%9A%E6%96%87%E5%86%85%E5%AE%B9">添加博文内容</a></li>
+<li><!-- raw HTML omitted -->1.3<!-- raw HTML omitted --> <a href="#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98">安装主题</a></li>
+<li><!-- raw HTML omitted -->1.4<!-- raw HTML omitted --> <a href="#%E6%9F%A5%E7%9C%8B%E7%94%9F%E6%88%90%E6%95%88%E6%9E%9C">查看生成效果</a></li>
+<li><!-- raw HTML omitted -->1.5<!-- raw HTML omitted --> <a href="#%E9%83%A8%E7%BD%B2%E5%88%B0-github-pages">部署到 github pages</a></li>
+<li><!-- raw HTML omitted -->1.6<!-- raw HTML omitted --> <a href="#%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC">部署脚本</a></li>
+</ul>
+</li>
+<li><!-- raw HTML omitted -->2<!-- raw HTML omitted --> <a href="#emacs-%E9%83%A8%E5%88%86">Emacs 部分</a>
+<ul>
+<li><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> <a href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE-ox-hugo">安装配置 ox-hugo</a></li>
+<li><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> <a href="#ox-hugo-%E5%A6%82%E4%BD%95%E7%AE%A1%E7%90%86-org-%E6%96%87%E6%A1%A3">ox-hugo 如何管理 Org 文档？</a></li>
+<li><!-- raw HTML omitted -->2.3<!-- raw HTML omitted --> <a href="#%E7%BC%96%E8%BE%91-org-%E6%A8%A1%E5%BC%8F%E5%AD%90%E6%A0%91%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE">编辑 Org 模式子树的快捷键</a></li>
+<li><!-- raw HTML omitted -->2.4<!-- raw HTML omitted --> <a href="#%E4%BD%BF%E7%94%A8-org-capture-%E5%BF%AB%E9%80%9F%E6%B7%BB%E5%8A%A0%E5%8D%9A%E6%96%87%E6%A0%87%E9%A2%98">使用 org-capture 快速添加博文标题</a></li>
+</ul>
+</li>
+<li><!-- raw HTML omitted -->3<!-- raw HTML omitted --> <a href="#hugo-server-%E6%97%A0%E6%B3%95%E5%9C%A8-even-%E4%B8%BB%E9%A2%98%E4%B8%8B%E6%B8%B2%E6%9F%93-ox-hugo-%E5%AF%BC%E5%87%BA%E7%9A%84-markdown-%E6%96%87%E4%BB%B6">hugo server 无法在 even 主题下渲染 ox-hugo 导出的 markdown 文件</a></li>
+<li><!-- raw HTML omitted -->4<!-- raw HTML omitted --> <a href="#org-meta-data-and-hugo-front-matter">Org meta-data &amp; hugo front matter</a>
+<ul>
+<li><!-- raw HTML omitted -->4.1<!-- raw HTML omitted --> <a href="#file-post-%E8%AE%BE%E5%AE%9A">file post 设定</a></li>
+<li><!-- raw HTML omitted -->4.2<!-- raw HTML omitted --> <a href="#subtree-post-%E8%AE%BE%E5%AE%9A">subtree post 设定</a></li>
+<li><!-- raw HTML omitted -->4.3<!-- raw HTML omitted --> <a href="#file-post-vs-subtree-post">file post vs subtree post</a></li>
+</ul>
+</li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="安装-hugo-到系统并生成站点"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 安装 hugo 到系统并生成站点</h2>
+<h3 id="新建-hugo-博文"><!-- raw HTML omitted -->1.1<!-- raw HTML omitted --> 新建 hugo 博文</h3>
 <p>Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 <a href="https://github.com/gohugoio/hugo/releases">release</a> 文件安装。</p>
 <p>安装以后，我们需要建立一个博客根目录，存放博客的配置以及博文等。</p>
 <div class="highlight"><div class="chroma">
@@ -214,7 +213,7 @@
 6 directories, 2 files
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="添加博文内容">添加博文内容</h3>
+</div><h3 id="添加博文内容"><!-- raw HTML omitted -->1.2<!-- raw HTML omitted --> 添加博文内容</h3>
 <p>在 hugo 的文件结构中， <code>content</code> 目录下每一个一级子目录都称为 <code>section</code>, 命令</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -244,7 +243,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>编辑 <code>our_blog.md</code> 文件内容即编辑我们的博文。=post= 目录下的 markdown 文件默认会在博客的首页展示。</p>
-<h3 id="安装主题">安装主题</h3>
+<h3 id="安装主题"><!-- raw HTML omitted -->1.3<!-- raw HTML omitted --> 安装主题</h3>
 <p>hugo 框架下博文都是 markdown 文件，为了在网页中浏览博客，还需要安装hugo主题。可以网上搜索 hugo 主题，选择自己喜欢的主题，下面以
 <a href="https://github.com/olOwOlo/hugo-theme-even">even</a> 主题为例，介绍安装流程。</p>
 <p>首先将主题下载到博客根目录的 <code>themes</code> 文件夹内</p>
@@ -258,10 +257,10 @@
 git clone https://github.com/olOwOlo/hugo-theme-even even
 </code></pre></td></tr></table>
 </div>
-</div><p>接着编辑根目录 config.toml，添加一行 <code>theme = &quot;even&quot;</code>; 然后并参考 even git 仓库
+</div><p>接着编辑根目录 config.toml，添加一行 <!-- raw HTML omitted -->theme = &ldquo;even&quot;<!-- raw HTML omitted -->; 然后并参考 even git 仓库
 <code>exampleSite</code> 目录中的 <code>config.toml</code> 文件修改站点配置文件
 <code>/root/of/hugosite/config.toml</code>.</p>
-<h3 id="查看生成效果">查看生成效果</h3>
+<h3 id="查看生成效果"><!-- raw HTML omitted -->1.4<!-- raw HTML omitted --> 查看生成效果</h3>
 <p>前面两部已经创建了博文 markdown 文件、安装并配置了主题相关配置，接着运行</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -322,7 +321,7 @@ Press Ctrl+C to stop
 </code></pre></td></tr></table>
 </div>
 </div><p><code>hugo server</code> 命令的输出中包含访问博客的地址。</p>
-<h3 id="部署到-github-pages">部署到 github pages</h3>
+<h3 id="部署到-github-pages"><!-- raw HTML omitted -->1.5<!-- raw HTML omitted --> 部署到 github pages</h3>
 <p>接下来将本地的博客部署到 github pages 上。根据<a href="https://pages.github.com/">官方演示</a>创建仓库，添加 index.html 即可。</p>
 <p>有了自己的 github page, 在博客站点根目录执行</p>
 <div class="highlight"><div class="chroma">
@@ -354,7 +353,7 @@ git push -u origin master
 </code></pre></td></tr></table>
 </div>
 </div><p>浏览器里访问：<a href="http://name.github.io/">http://name.github.io/</a></p>
-<h3 id="部署脚本">部署脚本</h3>
+<h3 id="部署脚本"><!-- raw HTML omitted -->1.6<!-- raw HTML omitted --> 部署脚本</h3>
 <p>参考<a href="https://jdhao.github.io/2018/10/10/hexo%5Fto%5Fhugo/">博文</a>，添加下面的脚本到博客根目录 deploy.sh 文件中。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -407,8 +406,8 @@ git push upstream master
 </code></pre></td></tr></table>
 </div>
 </div><p>之后，即可运行 <code>./deploy.sh</code> 就可以将博客更新并部署到 github 了。</p>
-<h2 id="emacs-部分">Emacs 部分</h2>
-<h3 id="安装配置-ox-hugo">安装配置 ox-hugo</h3>
+<h2 id="emacs-部分"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> Emacs 部分</h2>
+<h3 id="安装配置-ox-hugo"><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> 安装配置 ox-hugo</h3>
 <p><a href="https://ox-hugo.scripter.co/">ox-hugo</a> 可通过 melpa 源下载，</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -441,8 +440,8 @@ git push upstream master
 </code></pre></td></tr></table>
 </div>
 </div><p>这里的 <code>org-hugo-section</code> 的值与 hugo 博客根目录下 <code>content/post</code> section 对应。
-<code>M-x</code> <code>customize-group</code> <code>org-export-hugo</code> 可以设置相关的其他变量。</p>
-<h3 id="ox-hugo-如何管理-org-文档">ox-hugo 如何管理 Org 文档？</h3>
+<!-- raw HTML omitted -->M-x<!-- raw HTML omitted --> <code>customize-group</code> <code>org-export-hugo</code> 可以设置相关的其他变量。</p>
+<h3 id="ox-hugo-如何管理-org-文档"><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> ox-hugo 如何管理 Org 文档？</h3>
 <p>有效的 ox-hugo org 文档或子树有两类：</p>
 <dl>
 <dt>有效的 Hugo post subtree</dt>
@@ -469,26 +468,26 @@ git push upstream master
 <tbody>
 <tr>
 <td>one subtree or entire file</td>
-<td><code>C-c</code> <code>C-e</code> <code>H</code> <code>H</code></td>
+<td><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-e<!-- raw HTML omitted --> <!-- raw HTML omitted -->H<!-- raw HTML omitted --> <!-- raw HTML omitted -->H<!-- raw HTML omitted --></td>
 <td>current subtree</td>
 <td>file</td>
 </tr>
 <tr>
 <td>all subtrees or entire file</td>
-<td><code>C-c</code> <code>C-e</code> <code>H</code> <code>A</code></td>
+<td><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-e<!-- raw HTML omitted --> <!-- raw HTML omitted -->H<!-- raw HTML omitted --> <!-- raw HTML omitted -->A<!-- raw HTML omitted --></td>
 <td>all subtrees</td>
 <td>file</td>
 </tr>
 <tr>
 <td>only current file</td>
-<td><code>C-c</code> <code>C-e</code> <code>H</code> <code>h</code></td>
+<td><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-e<!-- raw HTML omitted --> <!-- raw HTML omitted -->H<!-- raw HTML omitted --> <!-- raw HTML omitted -->h<!-- raw HTML omitted --></td>
 <td>file</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <p>表中 <code>scope 1</code> 优先级高于 <code>scope 2</code>, 一旦优先级高的区间为有效的 ox-hugo org 单元，会转化区间内容会 hugo markdown 文件, 不会进一步转化低优先级的区间。</p>
-<h3 id="编辑-org-模式子树的快捷键">编辑 Org 模式子树的快捷键</h3>
+<h3 id="编辑-org-模式子树的快捷键"><!-- raw HTML omitted -->2.3<!-- raw HTML omitted --> 编辑 Org 模式子树的快捷键</h3>
 <table>
 <thead>
 <tr>
@@ -499,27 +498,27 @@ git push upstream master
 </thead>
 <tbody>
 <tr>
-<td><code>C-c</code> <code>C-x</code> <code>p</code></td>
+<td><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-x<!-- raw HTML omitted --> <!-- raw HTML omitted -->p<!-- raw HTML omitted --></td>
 <td>org-set-property</td>
 <td>quickly set property for each subtree</td>
 </tr>
 <tr>
-<td><code>C-c</code> <code>C-q</code></td>
+<td><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-q<!-- raw HTML omitted --></td>
 <td>org-set-tags-command</td>
 <td>set headding tags (the blog&rsquo;s categories or tags)</td>
 </tr>
 <tr>
-<td><code>C-c</code> <code>C-s</code></td>
+<td><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-s<!-- raw HTML omitted --></td>
 <td>org-schedule</td>
 <td>Insert a &ldquo;SCHEDULED&rdquo; string with a timestamp</td>
 </tr>
 </tbody>
 </table>
-<p>执行 <code>C-c</code> <code>C-x</code> <code>p</code> <code>export-file-name</code> <code>blog_title</code> 可以快速将当前子标题设置位有效的 hugo-org-subtree, 同时设置导出后的博文标题为 <code>blog_title</code>.</p>
-<p>快捷键 <code>C-c</code> <code>C-q</code> 可以在 Org 标题上设置标签。设置博文的标签和种类等同于设置
+<p>执行 <!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-x<!-- raw HTML omitted --> <!-- raw HTML omitted -->p<!-- raw HTML omitted --> <code>export-file-name</code> <code>blog_title</code> 可以快速将当前子标题设置位有效的 hugo-org-subtree, 同时设置导出后的博文标题为 <code>blog_title</code>.</p>
+<p>快捷键 <!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-q<!-- raw HTML omitted --> 可以在 Org 标题上设置标签。设置博文的标签和种类等同于设置
 markdown front matter 中的 <code>tags</code> <code>categories</code>. 若光标位于 Org 标题上，可以用
-<code>C-c C-c</code> 替代 <code>C-c C-q</code>.</p>
-<p>快捷键 <code>C-c</code> <code>C-s</code> 可以在 Org 标题下方添加一行如</p>
+<!-- raw HTML omitted -->C-c C-c<!-- raw HTML omitted --> 替代 <!-- raw HTML omitted -->C-c C-q<!-- raw HTML omitted -->.</p>
+<p>快捷键 <!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-s<!-- raw HTML omitted --> 可以在 Org 标题下方添加一行如</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -529,7 +528,7 @@ markdown front matter 中的 <code>tags</code> <code>categories</code>. 若光�
 </code></pre></td></tr></table>
 </div>
 </div><p>的内容，ox-hugo 将该行转化为 hugo front matter <code>PublishDate</code>.</p>
-<h3 id="使用-org-capture-快速添加博文标题">使用 org-capture 快速添加博文标题</h3>
+<h3 id="使用-org-capture-快速添加博文标题"><!-- raw HTML omitted -->2.4<!-- raw HTML omitted --> 使用 org-capture 快速添加博文标题</h3>
 <p>下面的 capture 模板可以快速在 site.org 文件中添加一个子标题，并提示输入导出时的博文标题。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -583,7 +582,7 @@ markdown front matter 中的 <code>tags</code> <code>categories</code>. 若光�
                  <span class="p">(</span><span class="nb">function</span> <span class="nv">org-hugo-new-subtree-post-capture-template</span><span class="p">))))</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="hugo-server-无法在-even-主题下渲染-ox-hugo-导出的-markdown-文件">hugo server 无法在 even 主题下渲染 ox-hugo 导出的 markdown 文件</h2>
+</div><h2 id="hugo-server-无法在-even-主题下渲染-ox-hugo-导出的-markdown-文件"><!-- raw HTML omitted -->3<!-- raw HTML omitted --> hugo server 无法在 even 主题下渲染 ox-hugo 导出的 markdown 文件</h2>
 <p>参考：</p>
 <ul>
 <li><a href="https://ox-hugo.scripter.co/doc/author/#tweaking-your-hugo-template-to-support-list-author">https://ox-hugo.scripter.co/doc/author/#tweaking-your-hugo-template-to-support-list-author</a></li>
@@ -612,10 +611,10 @@ markdown front matter 中的 <code>tags</code> <code>categories</code>. 若光�
 </div>
 </div></li>
 </ol>
-<h2 id="org-meta-data-and-hugo-front-matter">Org meta-data &amp; hugo front matter</h2>
+<h2 id="org-meta-data-and-hugo-front-matter"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> Org meta-data &amp; hugo front matter</h2>
 <p>链接
 <a href="https://ox-hugo.scripter.co/doc/org-meta-data-to-hugo-front-matter/">org-meta-data-to-hugo-front-matter</a></p>
-<h3 id="file-post-设定">file post 设定</h3>
+<h3 id="file-post-设定"><!-- raw HTML omitted -->4.1<!-- raw HTML omitted --> file post 设定</h3>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <table>
 <thead>
@@ -720,7 +719,7 @@ markdown front matter 中的 <code>tags</code> <code>categories</code>. 若光�
 #+hugo_auto_set_lastmod: t
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="subtree-post-设定">subtree post 设定</h3>
+</div><h3 id="subtree-post-设定"><!-- raw HTML omitted -->4.2<!-- raw HTML omitted --> subtree post 设定</h3>
 <p>一个有效的 subtree post 至少有5个 org 元数据，标记在下表中的 <code>required</code> 字段，比
 file post 多了一个必须属性 <code>:EXPORT_FILE_NAME: a</code>, 该属性不可为空。</p>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
@@ -800,7 +799,7 @@ file post 多了一个必须属性 <code>:EXPORT_FILE_NAME: a</code>, 该属性�
 </tr>
 <tr>
 <td><code>SCHEDULED: &lt;2020-10-04 Sun&gt;</code></td>
-<td><code>C-c C-s</code> generate</td>
+<td><!-- raw HTML omitted -->C-c C-s<!-- raw HTML omitted --> generate</td>
 <td>PublishDate</td>
 <td></td>
 <td></td>
@@ -852,7 +851,7 @@ file post 多了一个必须属性 <code>:EXPORT_FILE_NAME: a</code>, 该属性�
 <p>标题前缀为 <code>@</code> 的标签，如当前标题有标签 <code>:work:@simple:</code>, 表示 subtree post
 的 hugo front matter <code>categories</code> 列表中应包含 <code>simple</code>.</p>
 <p>更详细的设定请看 <a href="https://ox-hugo.scripter.co/doc/tags-and-categories/">官方文档</a></p>
-<h3 id="file-post-vs-subtree-post">file post vs subtree post</h3>
+<h3 id="file-post-vs-subtree-post"><!-- raw HTML omitted -->4.3<!-- raw HTML omitted --> file post vs subtree post</h3>
 <blockquote>
 <p>This works but you won’t be able to leverage Org-specific benefits like tag and
 property inheritance, use of TODO states to translate to post draft state, auto
@@ -860,8 +859,8 @@ weight calculation for pages, taxonomies and menu items, etc.</p>
 </blockquote>
 <p>虽然 file post 的关键字添加比较快捷，但 subtree post 有下面的优点</p>
 <ol>
-<li><code>C-c</code> <code>C-q</code> 设定 post 的标签、属性，以及各 org subtree 可以实现对它们的继承</li>
-<li><code>C-c</code> <code>C-t</code> 设定 TODO 关键字，由此可以自动设置 front matter 中的 <code>draft</code>
+<li><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-q<!-- raw HTML omitted --> 设定 post 的标签、属性，以及各 org subtree 可以实现对它们的继承</li>
+<li><!-- raw HTML omitted -->C-c<!-- raw HTML omitted --> <!-- raw HTML omitted -->C-t<!-- raw HTML omitted --> 设定 TODO 关键字，由此可以自动设置 front matter 中的 <code>draft</code>
 <code>pulishdate</code></li>
 </ol>
 

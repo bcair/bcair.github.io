@@ -21,12 +21,21 @@
     </item>
     
     <item>
-      <title>Hugo &amp; org-mode 搭建博客</title>
-      <link>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Sun, 03 Jan 2021 00:00:00 +0800</pubDate>
+      <title>Tmux 基本使用</title>
+      <link>https://bcair.github.io/post/tmux/</link>
+      <pubDate>Fri, 20 Nov 2020 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外</description>
+      <guid>https://bcair.github.io/post/tmux/</guid>
+      <description>为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话</description>
+    </item>
+    
+    <item>
+      <title>使用 hugo 及 ox-hugo 搭建基于 org 文档的静态博客</title>
+      <link>https://bcair.github.io/post/use_ox-hugo_generate_blogs/</link>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/use_ox-hugo_generate_blogs/</guid>
+      <description>安装 hugo 到系统并生成站点 新建 hugo 博文 Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 release 文件安装。 安装以后，我们需要</description>
     </item>
     
     <item>
@@ -45,15 +54,6 @@
       
       <guid>https://bcair.github.io/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/</guid>
       <description>function: delq 用法： 1 delq object list 返回值中会删除所有的 eq 匹配到的项，其他元素并不去重或者删除 匹配成功， delq 会改变原列表的值，原列表会对匹配元素“去重”或者“删</description>
-    </item>
-    
-    <item>
-      <title>debian initial script</title>
-      <link>https://bcair.github.io/post/debian_initialize/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://bcair.github.io/post/debian_initialize/</guid>
-      <description>由本 Org 文件生成 debian10 系统配置脚本。首先是脚本解释器声明部分： 修改系统软件源 使用清华大学镜像源 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak sudo apt install apt-transport-https ca-certificates -y</description>
     </item>
     
     <item>

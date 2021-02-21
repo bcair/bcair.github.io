@@ -6,18 +6,18 @@
     <description>Recent content in hugo on Violet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 03 Jan 2021 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2020 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://bcair.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hugo &amp; org-mode 搭建博客</title>
-      <link>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Sun, 03 Jan 2021 00:00:00 +0800</pubDate>
+      <title>使用 hugo 及 ox-hugo 搭建基于 org 文档的静态博客</title>
+      <link>https://bcair.github.io/post/use_ox-hugo_generate_blogs/</link>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>记录使用 Emacs 搭配 Hugo 搭建静态博客的过程。预备条件：创建自己的 GitHub Page 仓库。 Hugo 准备 安装 Hugo Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外</description>
+      <guid>https://bcair.github.io/post/use_ox-hugo_generate_blogs/</guid>
+      <description>安装 hugo 到系统并生成站点 新建 hugo 博文 Hugo 是用 Go 语言编写的静态站点引擎，除了手动编译、系统软件源安装外, 可以下载二进制 release 文件安装。 安装以后，我们需要</description>
     </item>
     
   </channel>

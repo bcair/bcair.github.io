@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Tmux 基本使用 - Violet</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="vailete" /><meta name="description" content="为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://bcair.github.io/post/tmux/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.8c3cbcb0324c2bb4875ceccba4007cbad4b4ac8377f33af9953c3e7684534a50.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Tmux 基本使用" />
+<meta property="og:description" content="为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bcair.github.io/post/tmux/" />
+<meta property="article:published_time" content="2020-11-20T00:00:00+08:00" />
+<meta property="article:modified_time" content="2020-11-20T00:00:00+08:00" />
+<meta itemprop="name" content="Tmux 基本使用">
+<meta itemprop="description" content="为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话">
+<meta itemprop="datePublished" content="2020-11-20T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2020-11-20T00:00:00+08:00" />
+<meta itemprop="wordCount" content="1997">
+
+
+
+<meta itemprop="keywords" content="Tmux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Tmux 基本使用"/>
+<meta name="twitter:description" content="为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Vailete</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Vailete</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Tmux 基本使用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-11-20 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么使用-tmux">为什么使用 Tmux</a></li>
+    <li><a href="#具体业务情景">具体业务情景</a></li>
+    <li><a href="#我的-tmux-配置文件">我的 Tmux 配置文件</a></li>
+    <li><a href="#tmux-复制模式">Tmux 复制模式</a></li>
+    <li><a href="#一些使用流程">一些使用流程</a></li>
+    <li><a href="#部分高频-tmux-快捷">部分高频 tmux 快捷</a></li>
+    <li><a href="#如何标识一个-tmux-面板">如何标识一个 Tmux 面板</a>
+      <ul>
+        <li><a href="#某一部分省略的含义">某一部分省略的含义</a></li>
+      </ul>
+    </li>
+    <li><a href="#其他">其他</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="为什么使用-tmux">为什么使用 Tmux</h2>
+<p>Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。</p>
+<p>比如可以创建两个会话 <code>local</code> <code>vm-debian</code>, 分别登录本地主机和启动在 virtualbox 中的 debian 虚拟主机：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">tmux new -d -s vm-debian ssh@vm1
+tmux new -s local-ubuntu
+</code></pre></td></tr></table>
+</div>
+</div><p>之后就可以通过 tmux 状态栏左侧的会话名称确定当前终端链接的主机身份了。</p>
+<p>同时只要主机上 Tmux server 不被中止，其托管的会话不会随着与该主机的链接断开而删除:</p>
+<ol>
+<li>Ubuntu 实体机上开启 gome-terminal 后建立的 tmux 会话，不会因为关闭 gome-terminal 而删除，</li>
+<li>远程主机上 tmux 会话不会因为断开与远程主机的 ssh 链接而中止。</li>
+</ol>
+<p>我个人使用上，以会话名标记主机，窗口名表示运行任务等，运行在各窗口的程序类似执行在“Tmux 模拟的后台”中。 一个执行耗时100秒的 python 脚本如下，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># file: ~/test1.py</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">Ior</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+
+<span class="c1"># a `StopIteration` exception will terminate this while loop.</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">Ior</span><span class="p">))</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>假设我们现在有三个耗时脚本需要运行，且要求可随时查询执行过程，那么下面的 tmux 窗口管理可以轻松达到要求：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">tmux new-window -dn t1 python3 ~/test1.py
+tmux new-window -dn t2 python3 ~/test2.py
+tmux new-window -dn t3 python3 ~/test3.py
+</code></pre></td></tr></table>
+</div>
+</div><p>切换 tmux 窗口就可以实时查看对应耗时程序的输出。更进一步，若需要同时对比三个脚本的输出信息，将上面语句中 <code>new-window</code> 换为 <code>split-window</code> 即可，实现同一窗口三个面板监控多个输出。</p>
+<p>个人常创建的窗口名有 <code>emacsclient</code> <code>bash</code> <code>ipython</code> <code>Org</code> 等，</p>
+<table>
+<thead>
+<tr>
+<th>Tmux window name</th>
+<th>task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>emacsclient</td>
+<td>run one emacsclient</td>
+</tr>
+<tr>
+<td>bash</td>
+<td>bash interpreter</td>
+</tr>
+<tr>
+<td>ipython</td>
+<td>ipython</td>
+</tr>
+<tr>
+<td>Orgmode</td>
+<td>edit some org files</td>
+</tr>
+<tr>
+<td>project-django1</td>
+<td>edit project &ldquo;django1&rdquo;</td>
+</tr>
+<tr>
+<td>server:web</td>
+<td>test my local web server</td>
+</tr>
+</tbody>
+</table>
+<p>不得不说 emacsclient 和 Tmux 真的很搭配。</p>
+<h2 id="具体业务情景">具体业务情景</h2>
+<p>可以将 Django HTTP 服务运行在一个 tmux 窗口中，便于切换该窗口查看服务日志:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">tmux neww -n django_http <span class="s1">&#39;cd ~/projects/minisaas; \
+</span><span class="s1">                          source ./venv/bin/activate; \
+</span><span class="s1">                          python -m manage runserver 9999&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该命令在新的 tmux 窗口 <code>django_http</code> 中激活了 django 项目虚拟环境并启动
+django http server.</p>
+<p>其他有运行 jupyter_lab 等，在 Linux 下我一般是创建对应的 systemctl service 文件来后台自动启动一个 jupyter 服务。这在 WSL 中不可用（systemctl 服务不可使用），
+tmux 可以作为替代方案。</p>
+<p>*注意*，若在 <code>new-window</code> <code>new-session</code> 等 tmux 命令中指定了参数
+<code>shell-command</code>,那么新建的会话、窗口会在该 shell 命令结束后被删除。比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">$ tmux neww -n test-window &#39;echo testing&#39;
+$ tmux neww -n test-window &#39;echo testing; sleep 10&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>第一条命令瞬时结束，而第二条命令会显示新的 tmux 窗口并持续10秒。</p>
+<h2 id="我的-tmux-配置文件">我的 Tmux 配置文件</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># prefix key</span>
+set-option -g prefix <span class="s2">&#34;C-t&#34;</span>
+unbind-key C-b
+bind-key <span class="s2">&#34;C-t&#34;</span> send-prefix
+
+<span class="c1"># status line</span>
+set-option -g status-style <span class="nv">fg</span><span class="o">=</span>white
+<span class="c1"># don&#39;t ignore the `-a&#39;</span>
+set-option -ag status-style <span class="nv">bg</span><span class="o">=</span>red <span class="c1"># magenta</span>
+set-option -g status on
+set-option -g status-keys emacs        <span class="c1"># emacs style in status line</span>
+set-option -g status-left-length <span class="m">15</span>
+set-option -g status-position top     <span class="c1"># bottom</span>
+
+<span class="c1"># mouse</span>
+set-option -g mouse on
+<span class="c1"># notice: turn on this option will</span>
+<span class="c1">#   1. disable putting selected text in primary clipboard in Gnome-terminal</span>
+<span class="c1">#   2. disable font scale in Windows Terminal.</span>
+<span class="c1">#   3. enable switch the window when click the window name in status line.</span>
+
+<span class="c1"># binds</span>
+bind-key -T prefix R source-file ~/.tmux.conf <span class="se">\;</span> <span class="se">\
+</span><span class="se"></span>     display-message <span class="s2">&#34;source-file done&#34;</span>
+
+<span class="c1"># the join operation need first mark src-pane firstly, then jump to</span>
+<span class="c1"># target-pane and invoke corresponding shortcuts.</span>
+bind-key -T prefix j join-pane -h
+bind-key -T prefix J join-pane -v
+bind-key -T <span class="nv">prefix</span> <span class="o">=</span> <span class="k">select</span>-layout even-horizon <span class="c1"># or &#39;prefix M-1&#39;</span>
+
+<span class="c1"># pane navigation</span>
+<span class="c1"># bind -r h select-pane -L  # move left</span>
+<span class="c1"># bind -r j select-pane -D  # move down</span>
+<span class="c1"># bind -r k select-pane -U  # move up</span>
+<span class="c1"># bind -r l select-pane -R  # move right</span>
+
+<span class="c1"># pane resizing</span>
+<span class="c1"># bind -r H resize-pane -L 5</span>
+<span class="c1"># bind -r J resize-pane -D 5</span>
+<span class="c1"># bind -r K resize-pane -U 5</span>
+<span class="c1"># bind -r L resize-pane -R 5</span>
+
+<span class="c1"># misc</span>
+set-option -g base-index <span class="m">1</span>      <span class="c1"># starting index for window</span>
+set-option -g pane-base-index <span class="m">1</span> <span class="c1"># starting index for pane</span>
+set-option -g renumber-windows on
+set-option -g default-terminal <span class="s2">&#34;screen-256color&#34;</span>
+set-option -g history-limit <span class="m">5000</span>
+
+<span class="c1"># copy mode</span>
+set-option -g mode-keys vi       <span class="c1"># copy mode key style</span>
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+</code></pre></td></tr></table>
+</div>
+</div><p>需要注意 <code>base-index</code> 选项只对 windows 索引有效，以及 <code>mouse</code> 和
+Windows Terminal 的滚轮缩放冲突。</p>
+<h2 id="tmux-复制模式">Tmux 复制模式</h2>
+<p>Tmux 的复制模式会将选中的文本添加到 tmux <code>buffer</code> 中，使用 tmux <code>paste-buffer</code>
+进行粘贴(快捷键 <code>prefix ]</code>).</p>
+<p>个人使用复制模式时更偏向 vi 风格的键位。快捷键绑定见上面的配置文件部分，主要是使 <code>v</code> 和 <code>y</code> 的表现类似在 vim 中的行为。要确认 tmux <code>mode-keys</code> 选项的值设置为 <code>vi</code>.</p>
+<p>通常使用复制模式的步骤如下：</p>
+<ol>
+<li>输 <code>prefix+[</code> 进入复制模式</li>
+<li>按空格键或 <code>v</code> 标记选择区间，</li>
+<li>按回车键或 <code>y</code> 将选中文本复制到 tmux buffer 中，这一步也会退出复制模式，也可以按 <code>q</code> 强制退出复制模式</li>
+<li>在目标 tmux 面板中，按下 <code>prefix+]</code> 粘贴文本</li>
+</ol>
+<p>查看当前复制模式快捷键风格：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">$ tmux show-window-options -g mode-keys # mode-keys emacs
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="一些使用流程">一些使用流程</h2>
+<p>修改 tmux 配置并重载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">$ vim ~/.tmux.conf &amp;&amp; tmux source ~/.tmux.conf
+</code></pre></td></tr></table>
+</div>
+</div><p>新建会话</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">$ tmux new [-d] -s session_name
+</code></pre></td></tr></table>
+</div>
+</div><p>合并两个面板</p>
+<ol>
+<li>标记 <code>src-pane</code> (快捷键 <code>prefix m</code>), 这时 status line 上该面板对应的窗口名字会添加后缀 &ldquo;M&rdquo;</li>
+<li>跳转到 <code>target-pane</code></li>
+<li>执行命令 <code>tmux join-pane -h</code>, 个人已绑定到 <code>prefix j</code> 上</li>
+</ol>
+<p>设置面板标题</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">$ tmux select-pane -T new-pane-title
+</code></pre></td></tr></table>
+</div>
+</div><p>面板标题默认为主机名，显示在状态栏的右侧。</p>
+<h2 id="部分高频-tmux-快捷">部分高频 tmux 快捷</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>pane</th>
+<th>window</th>
+<th>session</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新建</td>
+<td><code>%</code> <code>&quot;</code></td>
+<td><code>c</code></td>
+<td></td>
+<td>! 比较特殊，使面板加到新建的窗口中</td>
+</tr>
+<tr>
+<td>删除</td>
+<td><code>x</code></td>
+<td><code>&amp;</code></td>
+<td><code>d</code></td>
+<td>d 不是杀死会话，而是断开连接</td>
+</tr>
+<tr>
+<td>跳转</td>
+<td><code>p</code> <code>o</code> <code>q</code> <code>;</code></td>
+<td><code>w</code> <code>n</code> <code>p</code> <code>l</code> <code>0</code>-<code>9</code></td>
+<td><code>s</code> <code>(</code> <code>)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>重命名</td>
+<td><code>T</code></td>
+<td><code>,</code></td>
+<td><code>$</code></td>
+<td>窗口、会话有 name 属性，面板有类似的 title 属性</td>
+</tr>
+<tr>
+<td>交换</td>
+<td><code>{</code> <code>}</code> <code>C-o</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>resize</td>
+<td><code>C-Left</code> <code>M-1</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>以及</p>
+<ol>
+<li><code>:</code> 进入 Tmux 命令模式</li>
+<li><code>?</code> 列出快捷键信息</li>
+</ol>
+<h2 id="如何标识一个-tmux-面板">如何标识一个 Tmux 面板</h2>
+<p>使用 tmux 命令操纵会话、窗口、面板要了解如何表示它们，下面以面板 pane
+为例简要叙述一下它的标识方法，更详细的信息查阅 tmux 的man 手册
+<code>COMMANDS</code> 部分，搜索 <code>target-session</code> <code>target-window</code> 和 <code>target-pane</code>
+即可。</p>
+<p>面板的标识符结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">会话:窗口.面板
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，冒号 <code>:</code> 后接窗口标识，点号 <code>.</code> 后接面板标识。</p>
+<p>标识种类有 token、index、ID 等，见下表字段，优先级从左到右依次降低。</p>
+<ul>
+<li>注意窗口和面板都有 <code>token</code> 标识表示方法，但面板没有 <code>{start}</code>
+<code>{end}</code> 这两种表示；</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>token</th>
+<th>index</th>
+<th>ID</th>
+<th>exact name</th>
+<th>start of name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>session</td>
+<td></td>
+<td></td>
+<td>$session_id</td>
+<td>mysession</td>
+<td>mys</td>
+</tr>
+<tr>
+<td>window</td>
+<td><code>{start}</code> or <code>^</code></td>
+<td>mysession:1</td>
+<td>@1</td>
+<td>mywindow</td>
+<td>myw</td>
+</tr>
+<tr>
+<td>pane</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>{down-of}</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="某一部分省略的含义">某一部分省略的含义</h3>
+<ul>
+<li>会话：默认为当前会话；</li>
+<li>窗口：指代新建的（下一个生成的索引对应的）窗口或当前窗口；</li>
+<li>面板：默认为当前面板</li>
+</ul>
+<h2 id="其他">其他</h2>
+<p>若在某个 tmux 会话内以 daemon 模式启动 emacs server，所有连接该 emacs
+server 的客户端都可以使用命令 <code>getenv</code> 检索到环境变量=TMUX= 非空，即使是非 tmux 环境中连接到该 tmux 会话中的 emacs server 的 emacsclient。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">vailete</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-11-20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/tmux/">Tmux</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Debian 系统 MySQL 安装及 auth_socket 插件介绍</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/use_ox-hugo_generate_blogs/">
+            <span class="next-text nav-default">使用 hugo 及 ox-hugo 搭建基于 org 文档的静态博客</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://bcair.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">vailete</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

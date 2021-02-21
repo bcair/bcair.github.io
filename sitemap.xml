@@ -10,49 +10,49 @@
   
   <url>
     <loc>https://bcair.github.io/post/</loc>
-    <lastmod>2021-01-13T00:00:00+08:00</lastmod>
+    <lastmod>2021-02-21T22:37:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://bcair.github.io/</loc>
-    <lastmod>2021-01-13T00:00:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bcair.github.io/categories/</loc>
-    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bcair.github.io/categories/emacs/</loc>
-    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bcair.github.io/tags/hugo/</loc>
-    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://bcair.github.io/post/hugo-org-mode-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
+    <lastmod>2021-02-21T22:37:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://bcair.github.io/tags/</loc>
-    <lastmod>2021-01-03T00:00:00+08:00</lastmod>
+    <lastmod>2021-02-21T22:37:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://bcair.github.io/tags/tmux/</loc>
+    <lastmod>2020-11-20T00:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://bcair.github.io/post/tmux/</loc>
+    <lastmod>2020-11-20T00:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://bcair.github.io/tags/hugo/</loc>
+    <lastmod>2021-02-21T22:37:24+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://bcair.github.io/post/use_ox-hugo_generate_blogs/</loc>
+    <lastmod>2021-02-21T22:37:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -60,6 +60,13 @@
   <url>
     <loc>https://bcair.github.io/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</loc>
     <lastmod>2020-08-20T00:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://bcair.github.io/categories/</loc>
+    <lastmod>2020-05-20T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -79,7 +86,8 @@
   </url>
   
   <url>
-    <loc>https://bcair.github.io/post/debian_initialize/</loc>
+    <loc>https://bcair.github.io/categories/emacs/</loc>
+    <lastmod>2020-05-20T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

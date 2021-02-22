@@ -13,11 +13,20 @@
     
     <item>
       <title>Debian 系统 MySQL 安装及 auth_socket 插件介绍</title>
-      <link>https://bcair.github.io/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/</link>
+      <link>https://bcair.github.io/post/debian_mysql_installation_and_auth_socket_plugin/</link>
       <pubDate>Wed, 13 Jan 2021 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/</guid>
-      <description>Debian10 安装 MySQL 不像 ubuntu 仓库自带 MySQL 包，Debian 系统仓库中只有 mariadb，若需要安装 MySQL，可以添加 MySQL 的 apt 仓库源，然后使用 apt 命令下载。 注意：</description>
+      <guid>https://bcair.github.io/post/debian_mysql_installation_and_auth_socket_plugin/</guid>
+      <description>1安装 MySQL 2使用 auth_socket 插件的 root 账户密码登录出错 3使用 auth_socket 验证（系统用户名与MySQL用户名相同） 4使用 auth_socket 验证（系统用户名与MySQL用户名不相同） 1</description>
+    </item>
+    
+    <item>
+      <title>HTML 文件上传</title>
+      <link>https://bcair.github.io/post/file_uplaod/</link>
+      <pubDate>Fri, 25 Dec 2020 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/file_uplaod/</guid>
+      <description>1文件上传 1.1HTML 表单发送文件 1.1.1表单属性 enctype 1.1.2发送文件的3个步骤 1.2django 获取上传文件 1.3参考 1文件上传 1.1HTML 表单发送文件 由于HTTP是一种文</description>
     </item>
     
     <item>
@@ -26,7 +35,16 @@
       <pubDate>Fri, 20 Nov 2020 00:00:00 +0800</pubDate>
       
       <guid>https://bcair.github.io/post/tmux/</guid>
-      <description>为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话</description>
+      <description>1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什</description>
+    </item>
+    
+    <item>
+      <title>在Org中执行Python代码</title>
+      <link>https://bcair.github.io/post/org-babel-block/</link>
+      <pubDate>Tue, 13 Oct 2020 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/org-babel-block/</guid>
+      <description>1含有数据的 Org 表格 2例1 全部数字增加 100 3例2 只对列命名，视所有数据为字符串拼接&amp;rdquo;*&amp;quot; 4例3 不可指定 :colnames yes 的情况 5参考 1含</description>
     </item>
     
     <item>
@@ -39,48 +57,30 @@
     </item>
     
     <item>
-      <title>文件上传</title>
-      <link>https://bcair.github.io/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link>
-      <pubDate>Thu, 20 Aug 2020 00:00:00 +0800</pubDate>
+      <title>elisp 删除列表元素</title>
+      <link>https://bcair.github.io/post/elisp_delete_list_elements/</link>
+      <pubDate>Sun, 20 Sep 2020 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid>
-      <description>HTML 表单发送文件 由于HTTP是一种文本协议，所以处理文件这样的二进制数据(或者大家都这样认为的) 会有一些特殊的要求，而表单中其他数据都是文本数</description>
+      <guid>https://bcair.github.io/post/elisp_delete_list_elements/</guid>
+      <description>1elisp 删除列表元素:@emacs:elisp: 1.1function: delq 1.2function: delete 1.3总结 1elisp 删除列表元素 1.1function: delq 用法： 1 delq object list 返回值中会删除所有的 eq匹配到的项，其他元素并不</description>
     </item>
     
     <item>
-      <title>elisp学习 (一)：删除列表元素</title>
-      <link>https://bcair.github.io/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/</link>
-      <pubDate>Wed, 20 May 2020 00:00:00 +0800</pubDate>
+      <title>elisp 定义一个类似 use-package 包的加载配置文件的宏</title>
+      <link>https://bcair.github.io/post/elisp%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BCuse-package%E5%8C%85%E7%9A%84%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8F/</link>
+      <pubDate>Sat, 05 Sep 2020 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/</guid>
-      <description>function: delq 用法： 1 delq object list 返回值中会删除所有的 eq 匹配到的项，其他元素并不去重或者删除 匹配成功， delq 会改变原列表的值，原列表会对匹配元素“去重”或者“删</description>
+      <guid>https://bcair.github.io/post/elisp%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%BC%BCuse-package%E5%8C%85%E7%9A%84%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8F/</guid>
+      <description>1elisp 定义一个类似 use-package 包的加载配置文件的宏 1.1实参的处理 1.2使用循环不断的添加语句到宏展开结果 1.2.1不推介的格式 1.2.2推介的格式 1.2</description>
     </item>
     
     <item>
-      <title>elisp 宏实践(一)：使用宏批量定义流程相同的函数</title>
-      <link>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>elisp 宏学习笔记一</title>
+      <link>https://bcair.github.io/post/elisp_macro_note_1/</link>
+      <pubDate>Wed, 26 Aug 2020 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/</guid>
-      <description>函数功能：快速访问 django 项目视图、表单模块和模板文件 之前为了方便 django 项目跳转视图、表单模块，写了几个函数，快捷键调用时可以迅速给出对应的文件列表便</description>
-    </item>
-    
-    <item>
-      <title>将虚拟机 IP 由 DHCP 接口改为静态接口时无法 SSH 链接</title>
-      <link>https://bcair.github.io/post/ssh_connect_server_after_changing_its_ip_interface/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://bcair.github.io/post/ssh_connect_server_after_changing_its_ip_interface/</guid>
-      <description>###+hugo_custom_front_matter: :author &amp;ldquo;vailete&amp;rdquo; 虚拟机使用静态IP地址 编辑 /etc/network/interfaces 文件如下 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # This file describes the network interfaces available on your system # and how to activate them. For more information, see interfaces(5). source /etc/network/interfaces.d/* # The loopback network interface auto lo iface lo inet loopback</description>
-    </item>
-    
-    <item>
-      <title>常用的 shell 变量</title>
-      <link>https://bcair.github.io/post/%E5%B8%B8%E7%94%A8-shell-%E5%8F%98%E9%87%8F/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://bcair.github.io/post/%E5%B8%B8%E7%94%A8-shell-%E5%8F%98%E9%87%8F/</guid>
-      <description>注意下面的有些变量只适用于 sh 脚本编程： $0 当前脚本的文件名 $n 传递给脚本或函数的参数; n 是一个数字，表示第几个参数。例如，第一个参数是 $1 ，第二个</description>
+      <guid>https://bcair.github.io/post/elisp_macro_note_1/</guid>
+      <description>1elisp 宏学习笔记一 1elisp 宏学习笔记一 如何在调用宏时先处理部分其参数？ let eval 类似下面 1 2 3 4 (defmacro m/test2 (x) (format &amp;#34;ding %s&amp;#34; x)) (eval `(m/test2 ,(+ 2 7))) 1 ding 9 1 2 3 4 5 6 7 8 9 10 11 12 13 14 (defmacro</description>
     </item>
     
   </channel>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Debian 系统 MySQL 安装及 auth_socket 插件介绍 - Violet</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="vailete" /><meta name="description" content="1安装 MySQL 2使用 auth_socket 插件的 root 账户密码登录出错 3使用 auth_socket 验证（系统用户名与MySQL用户名相同） 4使用 auth_socket 验证（系统用户名与MySQL用户名不相同） 1" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://bcair.github.io/post/debian_mysql_installation_and_auth_socket_plugin/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.8c3cbcb0324c2bb4875ceccba4007cbad4b4ac8377f33af9953c3e7684534a50.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Debian 系统 MySQL 安装及 auth_socket 插件介绍" />
+<meta property="og:description" content="1安装 MySQL 2使用 auth_socket 插件的 root 账户密码登录出错 3使用 auth_socket 验证（系统用户名与MySQL用户名相同） 4使用 auth_socket 验证（系统用户名与MySQL用户名不相同） 1" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bcair.github.io/post/debian_mysql_installation_and_auth_socket_plugin/" />
+<meta property="article:published_time" content="2021-01-13T00:00:00+08:00" />
+<meta property="article:modified_time" content="2021-02-22T15:02:56+08:00" />
+<meta itemprop="name" content="Debian 系统 MySQL 安装及 auth_socket 插件介绍">
+<meta itemprop="description" content="1安装 MySQL 2使用 auth_socket 插件的 root 账户密码登录出错 3使用 auth_socket 验证（系统用户名与MySQL用户名相同） 4使用 auth_socket 验证（系统用户名与MySQL用户名不相同） 1">
+<meta itemprop="datePublished" content="2021-01-13T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2021-02-22T15:02:56+08:00" />
+<meta itemprop="wordCount" content="1290">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Debian 系统 MySQL 安装及 auth_socket 插件介绍"/>
+<meta name="twitter:description" content="1安装 MySQL 2使用 auth_socket 插件的 root 账户密码登录出错 3使用 auth_socket 验证（系统用户名与MySQL用户名相同） 4使用 auth_socket 验证（系统用户名与MySQL用户名不相同） 1"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Vailete</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Vailete</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Debian 系统 MySQL 安装及 auth_socket 插件介绍</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-01-13 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装-mysql"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 安装 MySQL</a></li>
+    <li><a href="#使用-auth-socket-插件的-root-账户密码登录出错"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> 使用 auth_socket 插件的 root 账户密码登录出错</a></li>
+    <li><a href="#使用-auth-socket-验证-系统用户名与mysql用户名相同"><!-- raw HTML omitted -->3<!-- raw HTML omitted --> 使用 auth_socket 验证（系统用户名与MySQL用户名相同）</a></li>
+    <li><a href="#使用-auth-socket-验证-系统用户名与mysql用户名不相同"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> 使用 auth_socket 验证（系统用户名与MySQL用户名不相同）</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<ul>
+<li><!-- raw HTML omitted -->1<!-- raw HTML omitted --> <a href="#%E5%AE%89%E8%A3%85-mysql">安装 MySQL</a></li>
+<li><!-- raw HTML omitted -->2<!-- raw HTML omitted --> <a href="#%E4%BD%BF%E7%94%A8-auth-socket-%E6%8F%92%E4%BB%B6%E7%9A%84-root-%E8%B4%A6%E6%88%B7%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%E5%87%BA%E9%94%99">使用 auth_socket 插件的 root 账户密码登录出错</a></li>
+<li><!-- raw HTML omitted -->3<!-- raw HTML omitted --> <a href="#%E4%BD%BF%E7%94%A8-auth-socket-%E9%AA%8C%E8%AF%81-%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E5%90%8D%E4%B8%8Emysql%E7%94%A8%E6%88%B7%E5%90%8D%E7%9B%B8%E5%90%8C">使用 auth_socket 验证（系统用户名与MySQL用户名相同）</a></li>
+<li><!-- raw HTML omitted -->4<!-- raw HTML omitted --> <a href="#%E4%BD%BF%E7%94%A8-auth-socket-%E9%AA%8C%E8%AF%81-%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E5%90%8D%E4%B8%8Emysql%E7%94%A8%E6%88%B7%E5%90%8D%E4%B8%8D%E7%9B%B8%E5%90%8C">使用 auth_socket 验证（系统用户名与MySQL用户名不相同）</a></li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="安装-mysql"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 安装 MySQL</h2>
+<p>不像 ubuntu 仓库自带 MySQL 包，Debian 系统仓库中只有 mariadb，若需要安装 MySQL，可以添加 MySQL 的 apt 仓库源，然后使用 apt 命令下载。</p>
+<p>注意： <strong>经实践下面的步骤在debian64位系统上可以成功安装，但在debian32位系统上则无法添加 mysql 仓库源</strong></p>
+<p>具体的命令如下</p>
+<ol>
+<li>
+<p>下载配置 mysql apt 源的deb包 <code>mysql-apt-config</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">wget https://dev.mysql.com/get/mysql-apt-config_0.8.16-1_all.deb
+</code></pre></td></tr></table>
+</div>
+</div><p>这里我选择该包当前最新的 0.8.16 版本。</p>
+</li>
+<li>
+<p>安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">sudo dpkg -i mysql-apt-config_0.8.16-1_all.deb
+</code></pre></td></tr></table>
+</div>
+</div><p>使用默认的配置即可，除非需要低版本的 MySQL 5.7，同时为了兼容低版本，可以设置
+root 账户的验证插件为 <code>mysql_native_password</code>.</p>
+</li>
+<li>
+<p>安装了 mysql-apt-config 包后，更新仓库，安装 mysql 即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">sudo apt update; sudo apt install mysql-client mysql-server
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h2 id="使用-auth-socket-插件的-root-账户密码登录出错"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> 使用 auth_socket 插件的 root 账户密码登录出错</h2>
+<p>Debian/Ubuntu系统安装 MySQL (5.7版本以上)后，若安装过程中 root 账户密码设置留空，
+MySQL默认设置 <code>root@localhost</code> 使用 <!-- raw HTML omitted -->auth_socket<!-- raw HTML omitted --> 验证插件验证。后续用户可以使用
+<code>mysql_secure_installation</code> 设置root密码。</p>
+<p>假设我们安装 MySQL 过程中未设置密码，那么 <code>mysql －uroot －p</code> 尝试用空密码链接服务时会报错:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">ding@localhost:~$: mysql -uroot -p
+Enter password:
+ERROR 1698 (28000): Access denied for user &#39;root&#39;@&#39;localhost&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>同时使用 root 权限或者登录系统 root 用户才可以成功进入 MySQL shell</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">ding@localhost:~$ sudo su -
+ding@localhost:~# mysql -uroot
+Welcome to the MySQL monitor. Commands end with ; or \g.
+...
+mysql&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>原因是 root 用户的验证插件为 <code>auth_socket</code> （安装过程中密码设为空默认插件）且当前系统用户非root账户。</p>
+<h2 id="使用-auth-socket-验证-系统用户名与mysql用户名相同"><!-- raw HTML omitted -->3<!-- raw HTML omitted --> 使用 auth_socket 验证（系统用户名与MySQL用户名相同）</h2>
+<p>参考： <a href="https://dev.mysql.com/doc/refman/8.0/en/socket-pluggable-authentication.html">MySQL 官网文档</a></p>
+<p><code>auth_socket</code> 插件允许本地机器上与系统用户同名的数据库用户可以免密码登录，其使用
+socket文件来进行验证，所以若一个系统用户拥有同名的 mysql 账户时，该插件可以使其免密码链接数据库。</p>
+<p>该插件的验证流程为：</p>
+<ol>
+<li>检查 socket 用户名（操作系统登录用户名）是否与 mysql 客户端链接时指定的用户名相匹配；</li>
+<li>若不匹配，插件检查 socket 用户名是否与 <code>mysql.user</code> 表中
+<code>authentication_string</code> 列指定的名字是否匹配；</li>
+<li>若匹配，链接建立成功，否则失败。</li>
+</ol>
+<p>我的系统登录用户名为 <code>ding</code>, 先创建一个同名的 mysql 账户</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">CREATE USER &#39;ding@&#39;localhost&#39; IDENTIFIED WITH mysql_native_password;
+</code></pre></td></tr></table>
+</div>
+</div><p>这时 mysql.user 表中可以查询到</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">mysql&gt; select user,plugin,authentication_string from user;
++------------------+-----------------------+------------------------------------------------------------------------+
+| user             | plugin                | authentication_string                                                  |
++------------------+-----------------------+------------------------------------------------------------------------+
+| ding             | mysql_native_password | *0E16069C30DC5FEDD519C3C83F73946CA578BCD4                              |
+| root             | caching_sha2_password | $A$005$*.X_^tt3e}O5V!`4SRdJ.BfaXOrLU5WNL0DgI4u4uF41qc8QtShjVHihTccD |
++------------------+-----------------------+------------------------------------------------------------------------+
+5 rows in set (0.00 sec)
+</code></pre></td></tr></table>
+</div>
+</div><p>下面将 <code>ding@localhost</code> 用户的验证插件改为 <code>auth_socket</code>, 其中第二条语句加载了该插件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">mysql&gt; alter user &#39;ding&#39;@&#39;localhost&#39; identified with auth_socket;
+ERROR 1524 (HY000): Plugin &#39;auth_socket&#39; is not loaded
+
+mysql&gt; install plugin auth_socket soname &#39;auth_socket.so&#39;;
+Query OK, 0 rows affected (0.12 sec)
+
+mysql&gt; alter user &#39;ding&#39;@&#39;localhost&#39; identified with auth_socket;
+Query OK, 0 rows affected (0.27 sec)
+
+mysql&gt; select user,plugin,authentication_string from user where user = &#39;ding&#39;;
++------+-------------+-----------------------+
+| user | plugin      | authentication_string |
++------+-------------+-----------------------+
+| ding | auth_socket |                       |
++------+-------------+-----------------------+
+1 row in set (0.00 sec)
+</code></pre></td></tr></table>
+</div>
+</div><p>现在，系统用户 <code>ding</code> 可以执行不带任何参数的 mysql 命令来链接到 mysql 服务器，且登录用户为 <code>ding@localhost</code>, 是不是很方便？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">ding@debian10-64:~$ mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.22 MySQL Community Server - GPL
+...
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; select current_user();
++----------------+
+| current_user() |
++----------------+
+| ding@localhost |
++----------------+
+1 row in set (0.00 sec)
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="使用-auth-socket-验证-系统用户名与mysql用户名不相同"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> 使用 auth_socket 验证（系统用户名与MySQL用户名不相同）</h2>
+<p>假设我们的系统有 <code>bob</code> 和 <code>ding</code> 两个帐号，同时MySQL中有用户 <code>ding@localhost</code>
+使用 <code>auth_socket</code> 验证。</p>
+<p>那么如何使系统登录用户为 <code>bob</code> 时，同样可以以 <!-- raw HTML omitted -->mysql<!-- raw HTML omitted --> 命令链接MySQL 服务器且使用
+<code>ding@localhost</code> 账户呢？</p>
+<p>很简单，执行下面的命令即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">mysql&gt; ALTER USER &#39;ding@&#39;localhost&#39; IDENTIFIED WITH auth_socket AS &#39;bob&#39;;
+</code></pre></td></tr></table>
+</div>
+</div><p>该命令实际上会修改 mysql.user 表中用户为 <code>ding</code> 的那一行记录中
+<code>authentication_string</code> 字段为 <code>bob</code>, 这样根据上一部分介绍的验证流程可知，系统用户 <code>bob</code> 同样可以使用 <code>ding@localhost</code> MySQL账户。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">vailete</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-02-22
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/file_uplaod/">
+            <span class="next-text nav-default">HTML 文件上传</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://bcair.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">vailete</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

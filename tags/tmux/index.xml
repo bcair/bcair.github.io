@@ -17,7 +17,7 @@
       <pubDate>Fri, 20 Nov 2020 00:00:00 +0800</pubDate>
       
       <guid>https://bcair.github.io/post/tmux/</guid>
-      <description>为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话</description>
+      <description>1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什</description>
     </item>
     
   </channel>

@@ -45,7 +45,7 @@
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://bcair.github.io/" />
-<meta property="og:updated_time" content="2021-02-21T23:33:38+08:00" />
+<meta property="og:updated_time" content="2021-02-22T15:02:56+08:00" />
 <meta itemprop="name" content="Violet">
 <meta itemprop="description" content="Hugo theme even example site.">
 <meta name="twitter:card" content="summary"/>
@@ -113,7 +113,7 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/">Debian 系统 MySQL 安装及 auth_socket 插件介绍</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/debian_mysql_installation_and_auth_socket_plugin/">Debian 系统 MySQL 安装及 auth_socket 插件介绍</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2021-01-13 </span>
       
@@ -122,10 +122,29 @@
   
   <div class="post-content">
     <div class="post-summary">
-      Debian10 安装 MySQL 不像 ubuntu 仓库自带 MySQL 包，Debian 系统仓库中只有 mariadb，若需要安装 MySQL，可以添加 MySQL 的 apt 仓库源，然后使用 apt 命令下载。 注意：
+      1安装 MySQL 2使用 auth_socket 插件的 root 账户密码登录出错 3使用 auth_socket 验证（系统用户名与MySQL用户名相同） 4使用 auth_socket 验证（系统用户名与MySQL用户名不相同） 1
     </div>
     <div class="read-more">
-      <a href="/post/debian%E7%B3%BB%E7%BB%9Fmysql%E5%AE%89%E8%A3%85%E5%8F%8Aauth_socket%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/" class="read-more-link">阅读更多</a>
+      <a href="/post/debian_mysql_installation_and_auth_socket_plugin/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/file_uplaod/">HTML 文件上传</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-12-25 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      1文件上传 1.1HTML 表单发送文件 1.1.1表单属性 enctype 1.1.2发送文件的3个步骤 1.2django 获取上传文件 1.3参考 1文件上传 1.1HTML 表单发送文件 由于HTTP是一种文
+    </div>
+    <div class="read-more">
+      <a href="/post/file_uplaod/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -141,10 +160,29 @@
   
   <div class="post-content">
     <div class="post-summary">
-      为什么使用 Tmux Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。 比如可以创建两个会话
+      1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什
     </div>
     <div class="read-more">
       <a href="/post/tmux/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/org-babel-block/">在Org中执行Python代码</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2020-10-13 </span>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      1含有数据的 Org 表格 2例1 全部数字增加 100 3例2 只对列命名，视所有数据为字符串拼接&rdquo;*&quot; 4例3 不可指定 :colnames yes 的情况 5参考 1含
+    </div>
+    <div class="read-more">
+      <a href="/post/org-babel-block/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -170,59 +208,19 @@
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/elisp_delete_list_elements/">elisp 删除列表元素</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2020-08-20 </span>
+      <span class="post-time"> 2020-09-20 </span>
       
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      HTML 表单发送文件 由于HTTP是一种文本协议，所以处理文件这样的二进制数据(或者大家都这样认为的) 会有一些特殊的要求，而表单中其他数据都是文本数
+      1elisp 删除列表元素:@emacs:elisp: 1.1function: delq 1.2function: delete 1.3总结 1elisp 删除列表元素 1.1function: delq 用法： 1 delq object list 返回值中会删除所有的 eq匹配到的项，其他元素并不
     </div>
     <div class="read-more">
-      <a href="/post/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/">elisp学习 (一)：删除列表元素</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2020-05-20 </span>
-      <div class="post-category">
-          <a href="/categories/emacs/"> emacs </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      function: delq 用法： 1 delq object list 返回值中会删除所有的 eq 匹配到的项，其他元素并不去重或者删除 匹配成功， delq 会改变原列表的值，原列表会对匹配元素“去重”或者“删
-    </div>
-    <div class="read-more">
-      <a href="/post/elisp%E5%88%97%E8%A1%A8%E4%B8%80%E5%85%83%E7%B4%A0%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/">elisp 宏实践(一)：使用宏批量定义流程相同的函数</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 0001-01-01 </span>
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      函数功能：快速访问 django 项目视图、表单模块和模板文件 之前为了方便 django 项目跳转视图、表单模块，写了几个函数，快捷键调用时可以迅速给出对应的文件列表便
-    </div>
-    <div class="read-more">
-      <a href="/post/elisp-%E5%AE%8F%E5%AE%9E%E8%B7%B5%E4%B8%80%E4%BD%BF%E7%94%A8%E5%AE%8F%E6%89%B9%E9%87%8F%E5%AE%9A%E4%B9%89%E6%B5%81%E7%A8%8B%E7%9B%B8%E5%90%8C%E7%9A%84%E5%87%BD%E6%95%B0/" class="read-more-link">阅读更多</a>
+      <a href="/post/elisp_delete_list_elements/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

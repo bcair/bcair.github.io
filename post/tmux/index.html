@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="vailete" /><meta name="description" content="1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="vailete" /><meta name="description" content="1使用 Tmux 管理多个终端 2具体业务情景 3我的 Tmux 配置文件 4Tmux 内容与系统剪贴板交互 4.1系统剪贴板内容 -&amp;gt; Tmux 4.2Tmux 选中文本 -&amp;gt; 系统剪贴板 5一些使用流程 6部分高" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,23 +40,23 @@
 
 
 <meta property="og:title" content="Tmux 基本使用" />
-<meta property="og:description" content="1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什" />
+<meta property="og:description" content="1使用 Tmux 管理多个终端 2具体业务情景 3我的 Tmux 配置文件 4Tmux 内容与系统剪贴板交互 4.1系统剪贴板内容 -&gt; Tmux 4.2Tmux 选中文本 -&gt; 系统剪贴板 5一些使用流程 6部分高" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bcair.github.io/post/tmux/" />
 <meta property="article:published_time" content="2020-11-20T00:00:00+08:00" />
 <meta property="article:modified_time" content="2020-11-20T00:00:00+08:00" />
 <meta itemprop="name" content="Tmux 基本使用">
-<meta itemprop="description" content="1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什">
+<meta itemprop="description" content="1使用 Tmux 管理多个终端 2具体业务情景 3我的 Tmux 配置文件 4Tmux 内容与系统剪贴板交互 4.1系统剪贴板内容 -&gt; Tmux 4.2Tmux 选中文本 -&gt; 系统剪贴板 5一些使用流程 6部分高">
 <meta itemprop="datePublished" content="2020-11-20T00:00:00+08:00" />
 <meta itemprop="dateModified" content="2020-11-20T00:00:00+08:00" />
-<meta itemprop="wordCount" content="2154">
+<meta itemprop="wordCount" content="2460">
 
 
 
 <meta itemprop="keywords" content="Tmux," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tmux 基本使用"/>
-<meta name="twitter:description" content="1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什"/>
+<meta name="twitter:description" content="1使用 Tmux 管理多个终端 2具体业务情景 3我的 Tmux 配置文件 4Tmux 内容与系统剪贴板交互 4.1系统剪贴板内容 -&gt; Tmux 4.2Tmux 选中文本 -&gt; 系统剪贴板 5一些使用流程 6部分高"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -133,10 +133,15 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#为什么使用-tmux"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 为什么使用 Tmux</a></li>
+    <li><a href="#使用-tmux-管理多个终端"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 使用 Tmux 管理多个终端</a></li>
     <li><a href="#具体业务情景"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> 具体业务情景</a></li>
     <li><a href="#我的-tmux-配置文件"><!-- raw HTML omitted -->3<!-- raw HTML omitted --> 我的 Tmux 配置文件</a></li>
-    <li><a href="#tmux-复制模式"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> Tmux 复制模式</a></li>
+    <li><a href="#tmux-内容与系统剪贴板交互"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> Tmux 内容与系统剪贴板交互</a>
+      <ul>
+        <li><a href="#系统剪贴板内容-tmux"><!-- raw HTML omitted -->4.1<!-- raw HTML omitted --> 系统剪贴板内容 -&gt; Tmux</a></li>
+        <li><a href="#tmux-选中文本-系统剪贴板"><!-- raw HTML omitted -->4.2<!-- raw HTML omitted --> Tmux 选中文本 -&gt; 系统剪贴板</a></li>
+      </ul>
+    </li>
     <li><a href="#一些使用流程"><!-- raw HTML omitted -->5<!-- raw HTML omitted --> 一些使用流程</a></li>
     <li><a href="#部分高频-tmux-快捷"><!-- raw HTML omitted -->6<!-- raw HTML omitted --> 部分高频 tmux 快捷</a></li>
     <li><a href="#如何标识一个-tmux-面板"><!-- raw HTML omitted -->7<!-- raw HTML omitted --> 如何标识一个 Tmux 面板</a>
@@ -155,10 +160,15 @@
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <ul>
-<li><!-- raw HTML omitted -->1<!-- raw HTML omitted --> <a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-tmux">为什么使用 Tmux</a></li>
+<li><!-- raw HTML omitted -->1<!-- raw HTML omitted --> <a href="#%E4%BD%BF%E7%94%A8-tmux-%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AA%E7%BB%88%E7%AB%AF">使用 Tmux 管理多个终端</a></li>
 <li><!-- raw HTML omitted -->2<!-- raw HTML omitted --> <a href="#%E5%85%B7%E4%BD%93%E4%B8%9A%E5%8A%A1%E6%83%85%E6%99%AF">具体业务情景</a></li>
 <li><!-- raw HTML omitted -->3<!-- raw HTML omitted --> <a href="#%E6%88%91%E7%9A%84-tmux-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">我的 Tmux 配置文件</a></li>
-<li><!-- raw HTML omitted -->4<!-- raw HTML omitted --> <a href="#tmux-%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%BC%8F">Tmux 复制模式</a></li>
+<li><!-- raw HTML omitted -->4<!-- raw HTML omitted --> <a href="#tmux-%E5%86%85%E5%AE%B9%E4%B8%8E%E7%B3%BB%E7%BB%9F%E5%89%AA%E8%B4%B4%E6%9D%BF%E4%BA%A4%E4%BA%92">Tmux 内容与系统剪贴板交互</a>
+<ul>
+<li><!-- raw HTML omitted -->4.1<!-- raw HTML omitted --> <a href="#%E7%B3%BB%E7%BB%9F%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%86%85%E5%AE%B9-tmux">系统剪贴板内容 -&gt; Tmux</a></li>
+<li><!-- raw HTML omitted -->4.2<!-- raw HTML omitted --> <a href="#tmux-%E9%80%89%E4%B8%AD%E6%96%87%E6%9C%AC-%E7%B3%BB%E7%BB%9F%E5%89%AA%E8%B4%B4%E6%9D%BF">Tmux 选中文本 -&gt; 系统剪贴板</a></li>
+</ul>
+</li>
 <li><!-- raw HTML omitted -->5<!-- raw HTML omitted --> <a href="#%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B">一些使用流程</a></li>
 <li><!-- raw HTML omitted -->6<!-- raw HTML omitted --> <a href="#%E9%83%A8%E5%88%86%E9%AB%98%E9%A2%91-tmux-%E5%BF%AB%E6%8D%B7">部分高频 tmux 快捷</a></li>
 <li><!-- raw HTML omitted -->7<!-- raw HTML omitted --> <a href="#%E5%A6%82%E4%BD%95%E6%A0%87%E8%AF%86%E4%B8%80%E4%B8%AA-tmux-%E9%9D%A2%E6%9D%BF">如何标识一个 Tmux 面板</a>
@@ -169,7 +179,7 @@
 <li><!-- raw HTML omitted -->8<!-- raw HTML omitted --> <a href="#%E5%85%B6%E4%BB%96">其他</a></li>
 </ul>
 <!-- raw HTML omitted -->
-<h2 id="为什么使用-tmux"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 为什么使用 Tmux</h2>
+<h2 id="使用-tmux-管理多个终端"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 使用 Tmux 管理多个终端</h2>
 <p>Tmux 使用会话、窗口、面板三层概念来对所管理的终端进行分类，使多个终端同时运行下可以有效识别当前终端的开发任务。</p>
 <p>比如可以创建两个会话 <code>local</code> <code>vm-debian</code>, 分别登录本地主机和启动在 virtualbox 中的 debian 虚拟主机：</p>
 <div class="highlight"><div class="chroma">
@@ -178,7 +188,7 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-sh" data-lang="sh">tmux new -d -s vm-debian ssh@vm1
+<pre class="chroma"><code class="language-sh" data-lang="sh">tmux new -d -s vm-debian <span class="s2">&#34;ssh ding@vm1&#34;</span>
 tmux new -s local-ubuntu
 </code></pre></td></tr></table>
 </div>
@@ -359,6 +369,8 @@ $ tmux neww -n test-window &#39;echo testing; sleep 10&#39;
 </span><span class="lnt">55
 </span><span class="lnt">56
 </span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># prefix key</span>
@@ -417,21 +429,46 @@ set-option -g history-limit <span class="m">5000</span>
 <span class="c1"># copy mode</span>
 set-option -g mode-keys vi       <span class="c1"># copy mode key style</span>
 bind-key -T copy-mode-vi v send-keys -X begin-selection
-bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+<span class="c1"># bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel</span>
+<span class="c1"># need install package `xclip`</span>
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel <span class="s1">&#39;xclip -in -selection clipboard&#39;</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>需要注意 <code>base-index</code> 选项只对 windows 索引有效，以及 <code>mouse</code> 和
 Windows Terminal 的滚轮缩放冲突。</p>
-<h2 id="tmux-复制模式"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> Tmux 复制模式</h2>
-<p>Tmux 的复制模式会将选中的文本添加到 tmux <code>buffer</code> 中，使用 tmux <code>paste-buffer</code>
-进行粘贴(快捷键 <code>prefix ]</code>).</p>
+<h2 id="tmux-内容与系统剪贴板交互"><!-- raw HTML omitted -->4<!-- raw HTML omitted --> Tmux 内容与系统剪贴板交互</h2>
+<h3 id="系统剪贴板内容-tmux"><!-- raw HTML omitted -->4.1<!-- raw HTML omitted --> 系统剪贴板内容 -&gt; Tmux</h3>
+<p>以 gnome-terminal 为例，快捷键 <!-- raw HTML omitted -->C-S-v<!-- raw HTML omitted --> 粘贴 <code>clipboard</code> 内容， 鼠标中键粘贴
+<code>primary</code></p>
+<h3 id="tmux-选中文本-系统剪贴板"><!-- raw HTML omitted -->4.2<!-- raw HTML omitted --> Tmux 选中文本 -&gt; 系统剪贴板</h3>
 <p>个人使用复制模式时更偏向 vi 风格的键位。快捷键绑定见上面的配置文件部分，主要是使 <code>v</code> 和 <code>y</code> 的表现类似在 vim 中的行为。要确认 tmux <code>mode-keys</code> 选项的值设置为 <code>vi</code>.</p>
+<p>然后添加下面一行到配置文件中，需要安装 <code>xclip</code> 包：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel &#39;xclip -in -selection clipboard&#39;
+</code></pre></td></tr></table>
+</div>
+</div><p>命令 <!-- raw HTML omitted -->xclip<!-- raw HTML omitted --> 利用重定向机制将选中文本重定向输出到系统剪贴板。如果不需要 Tmux 内容与系统剪贴板交互可以使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+</code></pre></td></tr></table>
+</div>
+</div><p>Tmux 复制模式会将选中的文本添加到 tmux <code>buffer</code> 中，使用 tmux <code>paste-buffer</code>
+进行粘贴(快捷键 <code>prefix ]</code>).</p>
 <p>通常使用复制模式的步骤如下：</p>
 <ol>
 <li>输 <code>prefix+[</code> 进入复制模式</li>
-<li>按空格键或 <code>v</code> 标记选择区间，</li>
-<li>按回车键或 <code>y</code> 将选中文本复制到 tmux buffer 中，这一步也会退出复制模式，也可以按 <code>q</code> 强制退出复制模式</li>
+<li>按空格键或 <code>v</code> 标记选择区间，移动类似 vim 风格</li>
+<li>按回车键或 <code>y</code> 将选中文本复制到 tmux buffer 中(或者系统剪贴板)，这一步也会退出复制模式，也可以按 <code>q</code> 强制退出复制模式</li>
 <li>在目标 tmux 面板中，按下 <code>prefix+]</code> 粘贴文本</li>
+<li>在系统 X 应用中， <!-- raw HTML omitted -->C-v<!-- raw HTML omitted --> 将 xclip 粘贴到剪贴板的内容粘贴到 X 应用中。</li>
 </ol>
 <p>查看当前复制模式快捷键风格：</p>
 <div class="highlight"><div class="chroma">
@@ -439,10 +476,12 @@ Windows Terminal 的滚轮缩放冲突。</p>
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-text" data-lang="text">$ tmux show-window-options -g mode-keys # mode-keys emacs
+<pre class="chroma"><code class="language-text" data-lang="text">$ tmux show-window-options -g mode-keys # emacs or vi
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="一些使用流程"><!-- raw HTML omitted -->5<!-- raw HTML omitted --> 一些使用流程</h2>
+</div><p>补充：<!-- raw HTML omitted -->
+除了 <code>xlicp</code> 还有 <code>xsel</code> 实现终端内容和 X 剪贴板、primary selection 的交互，后者默认使用 primary selection （即鼠标选择文本，中键粘贴）。</p>
+<h2 id="一些使用流程"><!-- raw HTML omitted -->5<!-- raw HTML omitted --> 一些使用流程</h2>
 <p>修改 tmux 配置并重载</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -648,9 +687,9 @@ server 的客户端都可以使用命令 <!-- raw HTML omitted -->getenv<!-- raw
           <a href="/tags/tmux/">Tmux</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/file_uplaod/">
+        <a class="prev" href="/post/debian_develop/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">HTML 文件上传</span>
+            <span class="prev-text nav-default">搭建 Debian 开发环境(虚拟机)</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/org-babel-block/">

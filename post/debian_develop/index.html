@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>搭建 Debian 开发环境(虚拟机) - Violet</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="vailete" /><meta name="description" content="1安装注意事项 2基础配置 2.1设置启动时间为一秒 2.2默认进入文本终端 2.3虚拟机网络配置为静态IP 2.4主机添加虚拟机IP地址到 hosts 文件 1安" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://bcair.github.io/post/debian_develop/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.8c3cbcb0324c2bb4875ceccba4007cbad4b4ac8377f33af9953c3e7684534a50.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="搭建 Debian 开发环境(虚拟机)" />
+<meta property="og:description" content="1安装注意事项 2基础配置 2.1设置启动时间为一秒 2.2默认进入文本终端 2.3虚拟机网络配置为静态IP 2.4主机添加虚拟机IP地址到 hosts 文件 1安" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bcair.github.io/post/debian_develop/" />
+<meta property="article:published_time" content="2020-12-25T00:00:00+08:00" />
+<meta property="article:modified_time" content="2021-02-22T21:25:33+08:00" />
+<meta itemprop="name" content="搭建 Debian 开发环境(虚拟机)">
+<meta itemprop="description" content="1安装注意事项 2基础配置 2.1设置启动时间为一秒 2.2默认进入文本终端 2.3虚拟机网络配置为静态IP 2.4主机添加虚拟机IP地址到 hosts 文件 1安">
+<meta itemprop="datePublished" content="2020-12-25T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2021-02-22T21:25:33+08:00" />
+<meta itemprop="wordCount" content="497">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="搭建 Debian 开发环境(虚拟机)"/>
+<meta name="twitter:description" content="1安装注意事项 2基础配置 2.1设置启动时间为一秒 2.2默认进入文本终端 2.3虚拟机网络配置为静态IP 2.4主机添加虚拟机IP地址到 hosts 文件 1安"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Vailete</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Vailete</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">搭建 Debian 开发环境(虚拟机)</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-12-25 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装注意事项"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 安装注意事项</a></li>
+    <li><a href="#基础配置"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> 基础配置</a>
+      <ul>
+        <li><a href="#设置启动时间为一秒"><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> 设置启动时间为一秒</a></li>
+        <li><a href="#默认进入文本终端"><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> 默认进入文本终端</a></li>
+        <li><a href="#虚拟机网络配置为静态ip"><!-- raw HTML omitted -->2.3<!-- raw HTML omitted --> 虚拟机网络配置为静态IP</a></li>
+        <li><a href="#主机添加虚拟机ip地址到-hosts-文件"><!-- raw HTML omitted -->2.4<!-- raw HTML omitted --> 主机添加虚拟机IP地址到 hosts 文件</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<ul>
+<li><!-- raw HTML omitted -->1<!-- raw HTML omitted --> <a href="#%E5%AE%89%E8%A3%85%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">安装注意事项</a></li>
+<li><!-- raw HTML omitted -->2<!-- raw HTML omitted --> <a href="#%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE">基础配置</a>
+<ul>
+<li><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> <a href="#%E8%AE%BE%E7%BD%AE%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4%E4%B8%BA%E4%B8%80%E7%A7%92">设置启动时间为一秒</a></li>
+<li><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> <a href="#%E9%BB%98%E8%AE%A4%E8%BF%9B%E5%85%A5%E6%96%87%E6%9C%AC%E7%BB%88%E7%AB%AF">默认进入文本终端</a></li>
+<li><!-- raw HTML omitted -->2.3<!-- raw HTML omitted --> <a href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E4%B8%BA%E9%9D%99%E6%80%81ip">虚拟机网络配置为静态IP</a></li>
+<li><!-- raw HTML omitted -->2.4<!-- raw HTML omitted --> <a href="#%E4%B8%BB%E6%9C%BA%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E6%9C%BAip%E5%9C%B0%E5%9D%80%E5%88%B0-hosts-%E6%96%87%E4%BB%B6">主机添加虚拟机IP地址到 hosts 文件</a></li>
+</ul>
+</li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="安装注意事项"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> 安装注意事项</h2>
+<p>安装桌面环境时虚拟机磁盘最好不小于10G, 若 <code>home</code> 等目录分区挂载时留给根目录 的分区会进一步缩小，个人安装中，采用 LVM 且 <code>home</code> <code>var</code> 等分区挂载后，出现了安装错误，扩大到12G才成功安装。所以给虚拟机分配充足的空间可以避免安装过程中因为容量用尽导致失败。如果不安装桌面环境则 virtualbox 默认配置即可;</p>
+<p>安装前虚拟机配置使用桥接模式并指定虚拟网卡，在安装时使用高级安装选项选择静态 IP
+协议而不是默认的DHCP协议，本文中个人使用的虚拟网卡名称为 <code>enp0s3</code>, 该格式不 同于以往的 <code>eth0</code> ＝eth1= 命名，具体请查看
+<a href="https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/">Netword_Interface_Name</a></p>
+<h2 id="基础配置"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> 基础配置</h2>
+<h3 id="设置启动时间为一秒"><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> 设置启动时间为一秒</h3>
+<p>管理员权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">sed -i <span class="s1">&#39;s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/&#39;</span> /etc/default/grub
+grub-update
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="默认进入文本终端"><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> 默认进入文本终端<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
+<p>虽然安装了图形界面，但日常开发时只启动文本终端SSH登录可以节省宿主机资源。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># 切换到图形界面</span>
+systemctl isolate graphical<span class="o">[</span>.target<span class="o">]</span>
+<span class="c1"># 切换文本终端</span>
+systemctl isolate multi-user<span class="o">[</span>.target<span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>用 <code>set-default</code> 替换 <code>isolate</code> 则可以设定默认启动终端</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">systemctl set-default multi-user
+systemctl get-default
+<span class="c1">#=&gt; multi-user.target</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="虚拟机网络配置为静态ip"><!-- raw HTML omitted -->2.3<!-- raw HTML omitted --> 虚拟机网络配置为静态IP<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></h3>
+<blockquote>
+<p>Network interfaces are typically initialized in &ldquo;<code>networking.service</code>&rdquo; for the
+<code>lo</code> interface and &ldquo;<code>NetworkManager.service</code>&rdquo; for other interfaces on modern
+Debian desktop system under <code>systemd</code>.</p>
+</blockquote>
+<h3 id="主机添加虚拟机ip地址到-hosts-文件"><!-- raw HTML omitted -->2.4<!-- raw HTML omitted --> 主机添加虚拟机IP地址到 hosts 文件</h3>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://www.debian.org/doc/manuals/debian-reference/ch03.en.html#%5Fsystem%5Fmanagement%5Funder%5Fsystemd">system_management_under_systemd</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://www.debian.org/doc/manuals/debian-reference/ch05.en.html">network_setup_under_debian</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">vailete</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-02-22
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/file_uplaod/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">HTML 文件上传</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/tmux/">
+            <span class="next-text nav-default">Tmux 基本使用</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://bcair.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2020 - 
+    2021
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">vailete</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

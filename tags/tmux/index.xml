@@ -17,7 +17,7 @@
       <pubDate>Fri, 20 Nov 2020 00:00:00 +0800</pubDate>
       
       <guid>https://bcair.github.io/post/tmux/</guid>
-      <description>1为什么使用 Tmux 2具体业务情景 3我的 Tmux 配置文件 4Tmux 复制模式 5一些使用流程 6部分高频 tmux 快捷 7如何标识一个 Tmux 面板 7.1某一部分省略的含义 8其他 1为什</description>
+      <description>1使用 Tmux 管理多个终端 2具体业务情景 3我的 Tmux 配置文件 4Tmux 内容与系统剪贴板交互 4.1系统剪贴板内容 -&amp;gt; Tmux 4.2Tmux 选中文本 -&amp;gt; 系统剪贴板 5一些使用流程 6部分高</description>
     </item>
     
   </channel>

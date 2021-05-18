@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>elisp pcase 宏入门</title>
-      <link>https://bcair.github.io/post/translate/</link>
+      <title>elisp pcase 宏入门（草稿)</title>
+      <link>https://bcair.github.io/post/elisp_pcase_practice/</link>
       <pubDate>Wed, 19 May 2021 00:00:00 +0800</pubDate>
       
-      <guid>https://bcair.github.io/post/translate/</guid>
+      <guid>https://bcair.github.io/post/elisp_pcase_practice/</guid>
       <description>1pcase 宏常用模式总结 2对应 Python 海象运算符赋值表达式的 Emacs Lisp pcase 结构 2.11 2.22 2.33 2.4todo 1pcase 宏常用模式总结 请注意有些模式（PATTERN）可以嵌套子模式（sub-PA</description>
     </item>
     

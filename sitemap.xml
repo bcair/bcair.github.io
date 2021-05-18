@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://bcair.github.io/post/translate/</loc>
+    <loc>https://bcair.github.io/post/elisp_pcase_practice/</loc>
     <lastmod>2021-05-19T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

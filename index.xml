@@ -6,10 +6,19 @@
     <description>Recent content on Violet</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 13 Jan 2021 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 19 May 2021 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://bcair.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>elisp pcase 宏入门</title>
+      <link>https://bcair.github.io/post/translate/</link>
+      <pubDate>Wed, 19 May 2021 00:00:00 +0800</pubDate>
+      
+      <guid>https://bcair.github.io/post/translate/</guid>
+      <description>1pcase 宏常用模式总结 2对应 Python 海象运算符赋值表达式的 Emacs Lisp pcase 结构 2.11 2.22 2.33 2.4todo 1pcase 宏常用模式总结 请注意有些模式（PATTERN）可以嵌套子模式（sub-PA</description>
+    </item>
     
     <item>
       <title>Debian 系统 MySQL 安装及 auth_socket 插件介绍</title>
